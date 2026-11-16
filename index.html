@@ -257,6 +257,21 @@ main { position: relative; z-index: 2; }
 .work .wcard:not(.invite) { aspect-ratio: auto; min-height: 420px; }
 .wcard .ptags { margin-top: 16px; }
 .wcard.feat { grid-column: 1 / -1; min-height: 460px; }
+.social-sec { margin-top: clamp(80px, 10vw, 140px); }
+.ig-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+@media (max-width: 800px) { .ig-grid { grid-template-columns: 1fr; } }
+.ig { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 20px; align-items: start; padding: 26px; border-radius: 26px; text-decoration: none; transition: border-color 0.3s, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.ig:hover { border-color: var(--page); transform: translateY(-4px); }
+.ig-ico { width: 64px; height: 64px; border-radius: 18px; display: grid; place-items: center; color: var(--paper); background: linear-gradient(135deg, var(--klein), var(--violet)); }
+.ig-ico svg { width: 30px; height: 30px; }
+.ig-body { display: grid; gap: 6px; min-width: 0; }
+.ig-body b { font-family: var(--f-display); font-weight: 800; font-size: clamp(18px, 2.2vw, 26px); letter-spacing: -0.01em; overflow-wrap: anywhere; }
+.ig-nm { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--page); }
+.ig-desc { color: var(--mute); font-size: 15px; }
+.ig-body .tags { margin-top: 8px; }
+.ig-go { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; transition: background 0.3s, color 0.3s, transform 0.3s; }
+.ig:hover .ig-go { background: var(--paper); color: var(--ink); transform: rotate(45deg); }
+@media (max-width: 480px) { .ig { grid-template-columns: auto minmax(0, 1fr); } .ig-go { display: none; } .ig-ico { width: 52px; height: 52px; } }
 .wcard.feat h3 { font-size: clamp(30px, 5vw, 64px); }
 .wcard.feat .k::after { content: "  ·  Izdvojeno"; color: var(--paper); }
 .wcard .ptags li { background: color-mix(in srgb, var(--ink) 55%, transparent); }
@@ -546,7 +561,7 @@ img { max-width: 100%; }
       <p class="label">/ Indeks</p>
       <ul class="idx">
         <li><a href="#usluge" data-cur="Otvori"><span class="t">Usluge</span><span class="d">Šest stvari koje radim od početka do kraja</span><span class="x" data-xp-route="usluge">+10 XP</span></a></li>
-        <li><a href="#radovi" data-cur="Gledaj"><span class="t">Radovi</span><span class="d">Izbor iz 50+ projekata: webshopovi, AI i web aplikacije</span><span class="x" data-xp-route="radovi">+10 XP</span></a></li>
+        <li><a href="#radovi" data-cur="Gledaj"><span class="t">Radovi</span><span class="d">Izbor iz 50+ projekata i Instagram profili koje vodim</span><span class="x" data-xp-route="radovi">+10 XP</span></a></li>
         <li><a href="#proces" data-cur="Igraj"><span class="t">Proces</span><span class="d">Put projekta u 5 nivoa</span><span class="x" data-xp-route="proces">+10 XP</span></a></li>
         <li><a href="#kreator" data-cur="Igraj"><span class="t">Kreator ✦</span><span class="d">Složi projekat kao kartu u igri i vidi cijenu</span><span class="x" data-xp-route="kreator">+10 XP</span></a></li>
         <li><a href="#igra" data-cur="Igraj"><span class="t">Igra</span><span class="d">Uhvati kuglu: arkadna igra s logom studija</span><span class="x" data-xp-route="igra">+10 XP</span></a></li>
@@ -643,6 +658,38 @@ img { max-width: 100%; }
         <a class="wcard" href="https://ozer-chem-hub.lovable.app" target="_blank" rel="noopener" data-cur="Otvori ↗"><div class="mesh" style="--a:270deg"></div><span class="soon" aria-hidden="true">↗</span><p class="k">Web platforma · Hemija</p><h3>Ozer Chem Hub</h3><p class="desc">Web platforma za hemijsku kompaniju Ozer.</p><ul class="tags ptags"><li>Platforma</li><li>B2B</li></ul><p class="dom">ozer-chem-hub.lovable.app</p></a>
         <a class="wcard" href="https://soluciofashion.com" target="_blank" rel="noopener" data-cur="Otvori ↗"><div class="mesh" style="--a:315deg"></div><span class="soon" aria-hidden="true">↗</span><p class="k">Webshop · Moda</p><h3>Solucio Fashion</h3><p class="desc">Online prodavnica za modni brend.</p><ul class="tags ptags"><li>Webshop</li><li>Moda</li></ul><p class="dom">soluciofashion.com</p></a>
         <a class="wcard invite" href="#kreator" data-cur="Igraj"><span class="big" aria-hidden="true">↗</span><p class="k">Slobodan termin</p><h3>Vaš projekat može biti sljedeći</h3></a>
+      </div>
+
+      <div class="social-sec">
+        <div class="head-row">
+          <div>
+            <p class="label">/ Marketing</p>
+            <h2 class="me-h">Profili koje vodim</h2>
+          </div>
+          <p class="intro">Osim sajtova vodim i marketing na Instagramu za brendove s kojima radim. Klijent tako dobija sajt i društvene mreže iz jedne ruke.</p>
+        </div>
+        <div class="ig-grid">
+          <a class="ig glass" href="https://www.instagram.com/exit.denim/" target="_blank" rel="noopener" data-cur="Instagram ↗">
+            <span class="ig-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="0.6" fill="currentColor"/></svg></span>
+            <span class="ig-body">
+              <b>@exit.denim</b>
+              <span class="ig-nm">EXIT Denim · proizvođač farmerki</span>
+              <span class="ig-desc">Vodim Instagram i marketing brenda, uz webshop koji sam napravio. Kompletna usluga: sajt i društvene mreže.</span>
+              <span class="tags"><span>Instagram</span><span>Sajt + marketing</span></span>
+            </span>
+            <span class="ig-go" aria-hidden="true">↗</span>
+          </a>
+          <a class="ig glass" href="https://www.instagram.com/amberti.home/" target="_blank" rel="noopener" data-cur="Instagram ↗">
+            <span class="ig-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="0.6" fill="currentColor"/></svg></span>
+            <span class="ig-body">
+              <b>@amberti.home</b>
+              <span class="ig-nm">Amberti Home</span>
+              <span class="ig-desc">Vodim Instagram i marketing brenda: sadržaj i objave.</span>
+              <span class="tags"><span>Instagram</span><span>Marketing</span></span>
+            </span>
+            <span class="ig-go" aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
     </div>
   </section>
