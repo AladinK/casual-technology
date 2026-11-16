@@ -1,0 +1,1827 @@
+<!doctype html>
+<html lang="bs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CASUAL TECHNOLOGY</title>
+<meta name="description" content="CASUAL TECHNOLOGY: SaaS dizajn, full-stack razvoj, AI chatbotovi i web sajtovi. Aladin Kurtanovic, Beograd.">
+<meta name="theme-color" content="#07081a">
+<meta property="og:type" content="website">
+<meta property="og:title" content="CASUAL TECHNOLOGY">
+<meta property="og:description" content="CASUAL TECHNOLOGY: SaaS dizajn, full-stack razvoj, AI chatbotovi i web sajtovi. Aladin Kurtanovic, Beograd.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: hash-routed multi-page studio site over one persistent WebGL orb that changes mood per page; curtain transitions; XP/mission HUD bottom-left. */
+:root {
+  --ink: #07081a;
+  --surface: #0f1133;
+  --line: #262a5c;
+  --paper: #eef0ff;
+  --mute: #959cc9;
+  --klein: #2b3bff;
+  --accent: #8c96ff;
+  --violet: #8f6bff;
+  --bug: #ff4d6d;
+  --page: #8c96ff;
+  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --f-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+[hidden] { display: none !important; }
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--ink); color: var(--paper);
+  font-family: var(--f-body); font-size: 16px; line-height: 1.6;
+  overflow-x: hidden; -webkit-font-smoothing: antialiased;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 85; background: var(--ink); }
+::selection { background: var(--accent); color: var(--ink); }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+h1:focus { outline: none; }
+.in {
+  max-width: 1240px; margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+html.cur-on, html.cur-on a, html.cur-on button { cursor: none; }
+
+/* ---------- background ---------- */
+#bg { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; display: block; }
+.bg-fallback {
+  position: fixed; z-index: 0; right: -10%; top: 12%; width: min(60vw, 620px); max-width: 100%; aspect-ratio: 1; border-radius: 50%; display: none;
+  background: radial-gradient(circle at 35% 35%, var(--accent), transparent 42%), radial-gradient(circle at 60% 60%, var(--klein), transparent 62%);
+  filter: blur(30px); opacity: 0.7;
+}
+.no-gl .bg-fallback { display: none; }
+.no-gl #bg { display: none; }
+.aurora { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.aurora i { position: absolute; width: 70vmax; height: 70vmax; border-radius: 50%; will-change: transform; }
+.aurora i:nth-child(1) { left: -22vmax; top: -26vmax; opacity: 0.3; background: radial-gradient(circle, var(--klein), transparent 60%); animation: au1 22s ease-in-out infinite alternate; }
+.aurora i:nth-child(2) { right: -26vmax; bottom: -30vmax; opacity: 0.2; background: radial-gradient(circle, var(--page), transparent 60%); animation: au2 26s ease-in-out infinite alternate; }
+.aurora i:nth-child(3) { left: 30%; top: 40%; width: 50vmax; height: 50vmax; opacity: 0.16; background: radial-gradient(circle, var(--violet), transparent 60%); animation: au3 18s ease-in-out infinite alternate; }
+@keyframes au1 { to { transform: translate(30vw, 22vh) scale(1.2); } }
+@keyframes au2 { to { transform: translate(-25vw, -20vh) scale(0.85); } }
+@keyframes au3 { to { transform: translate(-30vw, -25vh) scale(1.3); } }
+#bg2d { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; display: none; }
+.no-gl #bg2d { display: block; }
+.ripple { position: fixed; z-index: 3; left: 0; top: 0; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%; border: 1.5px solid var(--page); pointer-events: none; animation: rip 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+@keyframes rip { to { transform: scale(14); opacity: 0; } }
+.grain { position: fixed; inset: 0; z-index: 70; pointer-events: none; opacity: 0.05; mix-blend-mode: overlay; }
+.progress { position: fixed; left: 0; right: 0; top: env(safe-area-inset-top, 0px); height: 2px; z-index: 90; background: var(--page); transform-origin: 0 50%; transform: scaleX(0); }
+#fx { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 97; pointer-events: none; }
+
+/* ---------- header + menu ---------- */
+.top {
+  position: fixed; z-index: 82; left: 0; right: 0; top: env(safe-area-inset-top, 0px);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding-block: 18px;
+  padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px));
+  mix-blend-mode: difference; color: var(--paper);
+}
+.logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--f-display); font-weight: 800; font-size: 15px; letter-spacing: 0.02em; text-decoration: none; text-transform: uppercase; white-space: nowrap; }
+.logo svg { width: 32px; height: auto; overflow: visible; flex: none; }
+.logo .lo { transform-box: fill-box; transform-origin: center; transition: transform 0.45s cubic-bezier(0.3, 1.6, 0.5, 1); }
+.logo:hover .lo { transform: translateY(-22%); }
+.loader { position: fixed; inset: 0; z-index: 100; background: var(--ink); display: grid; place-items: center; transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1); }
+.loader.done { transform: translateY(-100%); }
+.loader .ld { display: grid; justify-items: center; gap: 22px; }
+.loader svg { width: min(36vw, 190px); height: auto; color: var(--paper); overflow: visible; }
+.loader .arc { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 0.8s cubic-bezier(0.6, 0, 0.2, 1) 0.1s forwards; }
+.loader .orb { fill: var(--paper); transform-box: fill-box; transform-origin: center; animation: drop 0.9s cubic-bezier(0.3, 1.5, 0.5, 1) 0.5s both; }
+.loader p { margin: 0; font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--mute); animation: tin 0.6s ease 0.9s both; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes drop { from { transform: translateY(-280%) scale(0.6); opacity: 0; } 50% { opacity: 1; } to { transform: none; opacity: 1; } }
+.logo b { font-weight: 800; color: var(--accent); }
+.links { display: flex; gap: 2px; }
+.links a { font-size: 14px; text-decoration: none; padding: 8px 12px; border-radius: 999px; position: relative; }
+.links a::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 4px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform 0.35s; }
+.links a:hover::after, .links a.active::after { transform: scaleX(1); transform-origin: left; }
+.menu-btn { display: none; background: none; border: 1px solid currentColor; border-radius: 999px; padding: 8px 16px; font-size: 14px; font-weight: 600; cursor: pointer; }
+@media (max-width: 900px) { .links { display: none; } .menu-btn { display: inline-block; } }
+
+.menu {
+  position: fixed; inset: 0; z-index: 81; background: var(--klein); color: var(--paper);
+  display: flex; flex-direction: column; justify-content: center;
+  clip-path: circle(0% at calc(100% - 50px) 40px); transition: clip-path 0.55s cubic-bezier(0.7, 0, 0.3, 1);
+  padding-block: 90px 40px;
+  padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px));
+  overflow-y: auto;
+}
+.menu.open { clip-path: circle(150% at calc(100% - 50px) 40px); }
+.menu ul { list-style: none; margin: 0; padding: 0; }
+.menu li a { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; text-decoration: none; padding-block: 6px; border-bottom: 1px solid color-mix(in srgb, var(--paper) 25%, transparent); }
+.menu .mt { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: clamp(32px, 8vw, 72px); line-height: 1.05; letter-spacing: -0.03em; transition: transform 0.35s, color 0.2s; }
+.menu li a:hover .mt { transform: translateX(14px); color: var(--ink); }
+.menu .mx { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+.menu .mx.ok { color: var(--accent); }
+
+.curtain { position: fixed; inset: 0; z-index: 95; background: var(--page); color: var(--ink); display: grid; place-items: center; transform: translateY(100%); pointer-events: none; }
+.curtain span { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: clamp(40px, 11vw, 160px); letter-spacing: -0.04em; }
+.curtain.cover { transform: translateY(0); transition: transform 0.5s cubic-bezier(0.7, 0, 0.3, 1); }
+.curtain.cover.leave { transform: translateY(-100%); }
+
+/* ---------- cursor ---------- */
+.cur { position: fixed; left: 0; top: 0; z-index: 99; pointer-events: none; width: 0; height: 0; display: none; }
+.cur-on .cur { display: block; }
+.cur i { position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%; background: var(--paper); mix-blend-mode: difference; transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.cur.hov i { transform: scale(5); }
+.cur span { position: absolute; left: 0; top: 0; transform: translate(-50%, -50%); font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; color: var(--ink); opacity: 0; transition: opacity 0.2s; }
+.cur.hov span { opacity: 1; }
+
+/* ---------- shared page bits ---------- */
+main { position: relative; z-index: 2; }
+.page { padding-block: clamp(120px, 17vh, 170px) 140px; min-height: 100vh; }
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mute); margin: 0; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--page); animation: ping 2s infinite; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--page) 60%, transparent); } 70%, 100% { box-shadow: 0 0 0 10px transparent; } }
+.label { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--page); margin: 0; }
+.mega { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: clamp(40px, 11vw, 158px); line-height: 0.88; letter-spacing: -0.04em; margin: 20px 0 30px; }
+.mega.sm { font-size: clamp(34px, 9.6vw, 132px); }
+.mega .line { display: block; overflow: hidden; padding-bottom: 0.05em; }
+.outline { color: transparent; -webkit-text-stroke: 1.5px var(--paper); }
+.ch { display: inline-block; animation: up 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both; animation-delay: calc(var(--i) * 34ms + 80ms); }
+@keyframes up { from { transform: translateY(108%) rotate(6deg); } to { transform: none; } }
+.intro { font-size: clamp(17px, 1.6vw, 20px); color: var(--mute); max-width: 52ch; margin: 0; }
+.head-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr); gap: 20px 48px; align-items: end; margin-bottom: clamp(40px, 6vw, 80px); }
+@media (max-width: 800px) { .head-row { grid-template-columns: 1fr; } }
+.btn {
+  display: inline-flex; align-items: center; gap: 12px; padding: 16px 24px; border-radius: 999px;
+  border: 1px solid var(--line); background: color-mix(in srgb, var(--ink) 55%, transparent);
+  font-weight: 600; font-size: 15px; text-decoration: none; color: var(--paper); cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.3s, color 0.3s, border-color 0.3s;
+}
+.btn:hover { border-color: var(--paper); }
+.btn-primary { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.btn-primary:hover { background: var(--page); border-color: var(--page); }
+.actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0; list-style: none; }
+.tags li, .tags span { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line); }
+.glass { background: color-mix(in srgb, var(--surface) 78%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--line); }
+
+/* ---------- home ---------- */
+.role { font-family: var(--f-display); font-weight: 600; font-size: clamp(18px, 2.6vw, 30px); line-height: 1.25; margin: 0 0 32px; }
+.scr { color: var(--page); white-space: nowrap; }
+.dud { color: var(--klein); }
+.orb-hint { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--mute); margin: 26px 0 0; }
+.marquee { border-block: 1px solid var(--line); overflow: hidden; padding-block: 20px; margin-top: clamp(60px, 9vw, 120px); background: color-mix(in srgb, var(--ink) 70%, transparent); }
+.mq-track { display: flex; width: max-content; animation: mq 32s linear infinite; }
+.mq-track span { display: inline-flex; align-items: center; gap: 40px; padding-right: 40px; font-family: var(--f-display); font-weight: 600; text-transform: uppercase; font-size: clamp(26px, 5vw, 62px); letter-spacing: -0.02em; white-space: nowrap; }
+.mq-track span:nth-child(even) { color: transparent; -webkit-text-stroke: 1px var(--paper); }
+.mq-track em { font-style: normal; color: var(--page); -webkit-text-stroke: 0; font-size: 0.6em; }
+@keyframes mq { to { transform: translateX(-50%); } }
+@media (max-width: 760px) { .page[data-route="pocetna"] .marquee { margin-top: 290px; } }
+.manifesto { padding-block: clamp(70px, 10vw, 140px); }
+.big-copy { font-family: var(--f-display); font-weight: 400; font-size: clamp(22px, 3.4vw, 46px); line-height: 1.2; letter-spacing: -0.02em; margin: 0; max-width: 24ch; text-wrap: balance; }
+.big-copy em { font-style: normal; color: var(--page); }
+.idx { list-style: none; padding: 0; margin: 20px 0 0; border-top: 1px solid var(--line); }
+.idx a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 24px; align-items: center; padding-block: 22px; border-bottom: 1px solid var(--line); text-decoration: none; position: relative; overflow: hidden; }
+.idx a::before { content: ""; position: absolute; inset: 0; background: var(--page); transform: scaleY(0); transform-origin: bottom; transition: transform 0.45s cubic-bezier(0.7, 0, 0.3, 1); z-index: -1; }
+.idx a:hover::before { transform: scaleY(1); }
+.idx a:hover { color: var(--ink); }
+.idx .t { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: clamp(28px, 6vw, 80px); line-height: 1; letter-spacing: -0.03em; transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.idx a:hover .t { transform: translateX(16px); }
+.idx .d { grid-column: 1; font-size: 15px; color: var(--mute); }
+.idx a:hover .d { color: var(--ink); }
+.idx .x { grid-row: 1 / span 2; grid-column: 2; font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 12px; border: 1px solid currentColor; border-radius: 999px; white-space: nowrap; }
+.idx .x.ok { color: var(--page); }
+.idx a:hover .x.ok { color: var(--ink); }
+.idx-wrap { position: relative; z-index: 0; }
+.teaser { margin-top: clamp(60px, 8vw, 110px); padding: clamp(24px, 4vw, 44px); border-radius: 28px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; }
+.teaser h2 { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: clamp(24px, 3.4vw, 42px); line-height: 1; margin: 0 0 10px; letter-spacing: -0.02em; }
+.teaser p { margin: 0; color: var(--mute); max-width: 56ch; }
+@media (max-width: 700px) { .teaser { grid-template-columns: 1fr; } }
+
+/* ---------- services ---------- */
+.svc-list { border-top: 1px solid var(--line); }
+.svc { border-bottom: 1px solid var(--line); }
+.svc-h { width: 100%; background: none; border: 0; text-align: left; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 16px 28px; align-items: center; padding: 26px 0; }
+.svc-t { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: clamp(22px, 4vw, 54px); line-height: 1.02; letter-spacing: -0.03em; transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.2s; }
+.svc-h:hover .svc-t, .svc-h[aria-expanded="true"] .svc-t { transform: translateX(12px); color: var(--page); }
+.svc-p { font-family: var(--f-mono); font-size: 13px; color: var(--mute); white-space: nowrap; }
+.svc-i { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font-size: 22px; transition: transform 0.4s, background 0.3s, color 0.3s; }
+.svc-h[aria-expanded="true"] .svc-i { transform: rotate(45deg); background: var(--page); color: var(--ink); border-color: var(--page); }
+.svc-b { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 24px 48px; padding: 0 0 32px; animation: drop 0.45s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.svc-b p { margin: 0; color: var(--mute); font-size: 17px; max-width: 52ch; }
+.svc-b .side { display: grid; gap: 18px; align-content: start; }
+@keyframes drop { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+@media (max-width: 700px) { .svc-h { grid-template-columns: minmax(0, 1fr) auto; } .svc-p { grid-column: 1; grid-row: 2; } .svc-i { grid-row: 1 / span 2; grid-column: 2; } .svc-b { grid-template-columns: 1fr; } }
+
+/* ---------- work ---------- */
+.work { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; position: relative; }
+.wcard .desc { margin: 10px 0 0; color: var(--paper); opacity: 0.8; font-size: 15px; max-width: 40ch; }
+.wcard .dom { margin: 12px 0 0; font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--mute); overflow-wrap: anywhere; }
+.wcard:hover .soon { background: var(--paper); color: var(--ink); }
+.wcard .soon { transition: background 0.3s, color 0.3s; }
+.wcard.invite { grid-column: 1 / -1; aspect-ratio: auto; min-height: 220px; }
+@media (max-width: 760px) { .work { grid-template-columns: 1fr; } }
+.wcard { position: relative; min-width: 0; aspect-ratio: 16 / 11; max-width: 100%; border-radius: 26px; overflow: hidden; padding: 26px; display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; background: var(--surface); border: 1px solid var(--line); transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.wcard:hover { transform: scale(0.985) rotate(-0.6deg); }
+.wcard .mesh { position: absolute; inset: -40%; background: conic-gradient(from var(--a, 0deg), var(--klein), var(--ink), var(--page), var(--ink), var(--violet), var(--klein)); filter: blur(42px); opacity: 0.45; animation: spin 16s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.wcard > *:not(.mesh) { position: relative; }
+.wcard .k { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--page); margin: 0 0 8px; }
+.wcard h3 { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: clamp(22px, 3vw, 38px); line-height: 1; margin: 0; letter-spacing: -0.02em; }
+.wcard .soon { position: absolute; top: 22px; right: 22px; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--paper); }
+.wcard.invite { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.wcard.invite .k { color: var(--klein); }
+.wcard.invite .big { position: absolute; top: 18px; right: 26px; font-family: var(--f-display); font-weight: 800; font-size: 64px; line-height: 1; transition: transform 0.4s; }
+.wcard.invite:hover .big { transform: rotate(45deg); }
+.star { position: absolute; left: 14px; top: 12px; width: 36px; height: 36px; border: 0; background: none; color: var(--paper); opacity: 0.14; font-size: 18px; cursor: pointer; transition: opacity 0.3s, transform 0.6s; z-index: 2; }
+.star:hover { opacity: 0.5; }
+.star.found { opacity: 1; color: var(--accent); transform: rotate(360deg) scale(1.3); }
+
+/* ---------- process ---------- */
+.map { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; max-width: 920px; position: relative; }
+.map::before, .map-fill { content: ""; position: absolute; left: 31px; top: 32px; bottom: 32px; width: 2px; background: var(--line); }
+.map-fill { background: var(--page); transform-origin: top; transform: scaleY(0); transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.lvl { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 22px; align-items: start; position: relative; transition: opacity 0.4s; }
+.lvl-node { width: 64px; height: 64px; border-radius: 50%; border: 2px solid var(--line); background: var(--ink); font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.06em; display: grid; place-items: center; cursor: pointer; transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.3s; }
+.lvl.current .lvl-node { border-color: var(--page); animation: ping 1.6s infinite; }
+.lvl.current .lvl-node:hover { transform: scale(1.08); }
+.lvl.done .lvl-node { background: var(--page); border-color: var(--page); color: var(--ink); }
+.lvl.locked { opacity: 0.45; }
+.lvl.locked .lvl-node { cursor: not-allowed; }
+.lvl-c { padding: 16px 22px; border-radius: 20px; }
+.lvl-c h3 { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: clamp(20px, 2.6vw, 30px); margin: 0 0 6px; letter-spacing: -0.02em; }
+.lvl-c p { margin: 0; color: var(--mute); }
+.lvl-c .rw { margin-top: 10px; font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--page); }
+.boss { margin-top: 28px; padding: 22px; border-radius: 20px; max-width: 920px; text-align: center; font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: clamp(18px, 2.6vw, 28px); background: var(--page); color: var(--ink); animation: pop 0.6s cubic-bezier(0.2, 1.4, 0.4, 1); }
+@keyframes pop { from { transform: scale(0.8); opacity: 0; } to { transform: none; opacity: 1; } }
+
+/* ---------- kreator ---------- */
+.kre { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(28px, 4vw, 56px); align-items: start; }
+@media (max-width: 900px) { .kre { grid-template-columns: 1fr; } }
+.step { margin-bottom: 36px; }
+.step h2 { font-family: var(--f-display); font-weight: 600; text-transform: uppercase; font-size: 18px; margin: 8px 0 16px; }
+.classes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.cls { text-align: left; padding: 18px; border-radius: 18px; cursor: pointer; display: grid; gap: 10px; transition: border-color 0.2s, transform 0.2s, background 0.2s; }
+.cls:hover { border-color: var(--paper); }
+.cls[aria-checked="true"] { border-color: var(--page); background: color-mix(in srgb, var(--page) 16%, var(--surface)); }
+.cls:active { transform: scale(0.97); }
+.cls svg { width: 28px; height: 28px; color: var(--page); }
+.cls b { font-family: var(--f-display); font-weight: 600; text-transform: uppercase; font-size: 15px; }
+.cls small { font-family: var(--f-mono); font-size: 11px; color: var(--mute); }
+.addons { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { cursor: pointer; padding: 10px 14px; border-radius: 999px; border: 1px solid var(--line); background: color-mix(in srgb, var(--ink) 70%, transparent); font-size: 14px; font-weight: 500; display: inline-flex; gap: 8px; align-items: baseline; transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s; }
+.chip small { font-family: var(--f-mono); font-size: 11px; color: var(--mute); }
+.chip:hover { border-color: var(--paper); }
+.chip[aria-pressed="true"] { background: var(--page); border-color: var(--page); color: var(--ink); }
+.chip[aria-pressed="true"] small { color: var(--ink); }
+.chip:disabled { opacity: 0.3; cursor: not-allowed; }
+.chip:active { transform: scale(0.95); }
+.field { display: grid; gap: 8px; }
+.field label { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
+.field input { font: inherit; font-size: 17px; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line); background: var(--ink); color: var(--paper); cursor: text; }
+.card-wrap { position: sticky; top: calc(84px + env(safe-area-inset-top, 0px)); display: grid; gap: 14px; }
+.pcard { --rar: var(--mute); position: relative; border-radius: 26px; padding: 22px; border: 2px solid var(--rar); background: linear-gradient(160deg, var(--surface), var(--ink)); overflow: hidden; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s, box-shadow 0.4s; }
+.pcard::before { content: ""; position: absolute; inset: -50%; background: conic-gradient(from var(--fa, 0deg), #e0a6ff, #8c96ff, #6ef0c2, #7fd3ff, #2b3bff, #e0a6ff); mix-blend-mode: color-dodge; opacity: 0; transition: opacity 0.4s; pointer-events: none; }
+.pcard.rar-1 { --rar: var(--klein); }
+.pcard.rar-2 { --rar: var(--violet); }
+.pcard.rar-2::before { opacity: 0.12; }
+.pcard.rar-3 { --rar: var(--paper); box-shadow: 0 0 70px color-mix(in srgb, var(--accent) 45%, transparent); }
+.pcard.rar-3::before { opacity: 0.22; animation: spin 6s linear infinite; }
+.pcard.flip { animation: flip 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+@keyframes flip { from { transform: perspective(900px) rotateY(-180deg) scale(0.9); } to { transform: none; } }
+.pcard > * { position: relative; }
+.pc-top { display: flex; justify-content: space-between; gap: 10px; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; }
+.pc-rar { color: var(--rar); font-weight: 500; }
+.pc-art { margin: 18px 0; height: 120px; border-radius: 18px; display: grid; place-items: center; background: radial-gradient(circle at 50% 60%, color-mix(in srgb, var(--rar) 45%, transparent), transparent 70%), var(--ink); border: 1px solid var(--line); color: var(--paper); }
+.pc-art svg { width: 54px; height: 54px; }
+.pc-name { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: 22px; line-height: 1.05; margin: 0 0 14px; overflow-wrap: anywhere; }
+.stats { display: grid; gap: 8px; margin-bottom: 16px; }
+.stat { display: grid; grid-template-columns: 70px minmax(0, 1fr) 30px; gap: 10px; align-items: center; font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+.stat .tr { height: 6px; border-radius: 6px; background: var(--line); overflow: hidden; }
+.stat .tr i { display: block; height: 100%; background: var(--rar); border-radius: 6px; transform-origin: left; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.stat .v { text-align: right; font-variant-numeric: tabular-nums; }
+.pc-add { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 16px; min-height: 22px; }
+.pc-add span { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 8px; border-radius: 999px; background: color-mix(in srgb, var(--rar) 25%, transparent); }
+.pc-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0; border-top: 1px solid var(--line); padding-top: 14px; }
+.pc-meta dt { font-family: var(--f-mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
+.pc-meta dd { margin: 2px 0 0; font-family: var(--f-display); font-weight: 600; font-size: 14px; font-variant-numeric: tabular-nums; }
+.card-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.note-s { font-size: 13px; color: var(--mute); margin: 0; }
+
+/* ---------- game ---------- */
+.game-wrap { position: relative; border-radius: 28px; overflow: hidden; height: clamp(440px, 68vh, 640px); touch-action: none; user-select: none; -webkit-user-select: none; }
+.game-canvas { display: block; width: 100%; height: 100%; touch-action: none; outline: none; }
+.g-over { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; text-align: center; gap: 14px; padding: 24px; background: color-mix(in srgb, var(--ink) 74%, transparent); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.g-over svg { width: 110px; height: auto; color: var(--paper); }
+.g-over h2 { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: clamp(26px, 4vw, 44px); line-height: 1; letter-spacing: -0.02em; margin: 6px 0 0; }
+.g-over p { margin: 0; color: var(--mute); max-width: 42ch; }
+.g-stats { display: flex; gap: 32px; justify-content: center; }
+.g-stats div { display: grid; justify-items: center; }
+.g-stats b { font-family: var(--f-display); font-weight: 800; font-size: 40px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.g-stats span { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mute); }
+.g-keys { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.legend { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-top: 18px; font-size: 14px; color: var(--mute); }
+.legend span { display: inline-flex; align-items: center; gap: 8px; }
+.legend i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; flex: none; }
+.lg-orb { background: var(--paper); }
+.lg-big { background: var(--paper); box-shadow: 0 0 0 2px var(--ink), 0 0 0 4px var(--page); }
+.lg-bug { background: var(--bug); border-radius: 3px !important; }
+.lg-wide { background: var(--page); }
+.lg-slow { border: 2px dashed var(--page); }
+.cur.off { opacity: 0 !important; }
+
+/* ---------- prices ---------- */
+.prices { border-top: 1px solid var(--line); margin-bottom: 48px; }
+.prow { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.5fr) auto; gap: 10px 32px; align-items: baseline; padding: 26px 8px; border-bottom: 1px solid var(--line); transition: background 0.3s, padding 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.prow:hover { background: color-mix(in srgb, var(--surface) 80%, transparent); padding-left: 24px; padding-right: 24px; }
+.prow h3 { font-family: var(--f-display); font-weight: 600; text-transform: uppercase; font-size: clamp(17px, 2vw, 22px); margin: 0; }
+.prow p { margin: 0; color: var(--mute); font-size: 15px; }
+.prow .pr { font-family: var(--f-display); font-weight: 600; font-size: clamp(17px, 2vw, 22px); white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--page); }
+.prow .pr small { font-family: var(--f-mono); font-size: 12px; color: var(--mute); margin-left: 4px; }
+@media (max-width: 700px) { .prow { grid-template-columns: 1fr; } }
+
+/* ---------- contact ---------- */
+.crow { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; }
+.phone { font-family: var(--f-display); font-weight: 800; font-size: clamp(28px, 5vw, 64px); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; user-select: all; }
+.kcard { margin-top: 48px; padding: 24px; border-radius: 22px; max-width: 720px; }
+.kcard pre { font-family: var(--f-mono); font-size: 13px; line-height: 1.7; white-space: pre-wrap; margin: 12px 0 16px; color: var(--paper); }
+
+footer { position: relative; z-index: 2; padding-block: 26px 110px; border-top: 1px solid var(--line); font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mute); }
+footer .in { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+/* ---------- game HUD ---------- */
+.hud { position: fixed; z-index: 84; left: max(16px, env(safe-area-inset-left, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); }
+.hud-btn { display: flex; align-items: center; gap: 10px; padding: 8px 14px 8px 8px; border-radius: 999px; cursor: pointer; max-width: calc(100vw - 32px); }
+.hud-lvl { font-family: var(--f-display); font-weight: 800; font-size: 12px; padding: 7px 10px; border-radius: 999px; background: var(--page); color: var(--ink); white-space: nowrap; }
+.hud-name { font-weight: 600; font-size: 14px; white-space: nowrap; }
+.hud-bar { width: 80px; height: 6px; border-radius: 6px; background: var(--line); overflow: hidden; flex: none; }
+.hud-bar i { display: block; height: 100%; background: var(--page); transform-origin: left; transform: scaleX(0); transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.hud-xp { font-family: var(--f-mono); font-size: 12px; color: var(--mute); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.hud-btn.bump { animation: bump 0.5s cubic-bezier(0.2, 1.4, 0.4, 1); }
+@keyframes bump { 40% { transform: scale(1.08); } }
+@media (max-width: 480px) { .hud-name { display: none; } .hud-bar { width: 56px; } }
+.quests { position: fixed; z-index: 86; left: max(16px, env(safe-area-inset-left, 0px)); bottom: calc(76px + env(safe-area-inset-bottom, 0px)); width: min(400px, calc(100vw - 32px)); max-height: min(72vh, 640px); overflow-y: auto; border-radius: 24px; padding: 22px; background: color-mix(in srgb, var(--ink) 92%, transparent); animation: pop 0.35s cubic-bezier(0.2, 1.2, 0.4, 1); }
+.quests h2 { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: 20px; margin: 4px 0 4px; }
+.quests .sub { margin: 0 0 16px; color: var(--mute); font-size: 14px; }
+.qlist { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.q { display: grid; grid-template-columns: 26px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 12px; border-radius: 14px; border: 1px solid var(--line); }
+.q .c { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--line); display: grid; place-items: center; font-size: 13px; }
+.q b { display: block; font-size: 14px; }
+.q span { display: block; font-size: 13px; color: var(--mute); line-height: 1.4; }
+.q em { font-style: normal; font-family: var(--f-mono); font-size: 12px; color: var(--page); white-space: nowrap; }
+.q.done { border-color: color-mix(in srgb, var(--page) 50%, var(--line)); }
+.q.done .c { background: var(--page); border-color: var(--page); color: var(--ink); }
+.q.done b { text-decoration: line-through; text-decoration-color: var(--page); }
+.reward { margin-top: 14px; padding: 16px; border-radius: 16px; background: var(--page); color: var(--ink); }
+.reward b { font-family: var(--f-display); text-transform: uppercase; display: block; margin-bottom: 4px; }
+.reward code { font-family: var(--f-mono); font-weight: 500; font-size: 15px; padding: 2px 8px; border-radius: 6px; background: var(--ink); color: var(--page); user-select: all; }
+.q-foot { display: flex; justify-content: space-between; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.mini { cursor: pointer; font-size: 13px; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); background: none; }
+.mini:hover { border-color: var(--paper); }
+.mini[aria-pressed="true"] { background: var(--paper); color: var(--ink); }
+.toasts { position: fixed; z-index: 98; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 8px; justify-items: end; pointer-events: none; max-width: calc(100vw - 32px); }
+.toast { display: flex; align-items: center; gap: 10px; padding: 10px 14px 10px 10px; border-radius: 999px; background: var(--paper); color: var(--ink); font-weight: 600; font-size: 14px; animation: tin 0.45s cubic-bezier(0.2, 1.3, 0.4, 1) both; }
+.toast .tb { font-family: var(--f-mono); font-size: 12px; padding: 4px 8px; border-radius: 999px; background: var(--ink); color: var(--page); white-space: nowrap; }
+.toast.big { background: var(--page); }
+.toast.big .tb { color: var(--paper); }
+.toast.out { animation: tout 0.4s ease forwards; }
+@keyframes tin { from { transform: translateY(20px) scale(0.9); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes tout { to { transform: translateX(30px); opacity: 0; } }
+@media (max-width: 600px) { .toasts { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ch, .boss, .quests, .toast, .pcard.flip, .svc-b { animation: none !important; }
+  .curtain, .menu { transition: none !important; }
+  .mq-track { animation-duration: 90s; }
+  .aurora i { animation-duration: 60s !important; }
+}
+</style>
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+img { max-width: 100%; }
+</style>
+</head>
+<body>
+<div class="loader" id="loader" aria-hidden="true" hidden>
+  <div class="ld">
+    <svg viewBox="60 100 392 290"><path class="arc" d="M92 186A164 164 0 0 0 420 186" pathLength="1" fill="none" stroke="currentColor" stroke-width="56"/><circle class="orb" cx="256" cy="214" r="80"/></svg>
+    <p>Casual Technology</p>
+  </div>
+</div>
+<script>(function () { try { var l = document.getElementById("loader"); if (!sessionStorage.getItem("ct-intro") && !matchMedia("(prefers-reduced-motion: reduce)").matches) { l.hidden = false; setTimeout(function () { if (l.parentNode) l.parentNode.removeChild(l); }, 4000); } } catch (e) {} })();</script>
+<div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<canvas id="bg2d" aria-hidden="true"></canvas>
+<div class="bg-fallback" aria-hidden="true"></div>
+<div class="grain" id="grain" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<header class="top">
+  <a class="logo" id="logo" href="#pocetna" data-nav="pocetna" data-cur="Početna" aria-label="CASUAL TECHNOLOGY, početna"><svg viewBox="60 130 392 252" aria-hidden="true"><path d="M64 186A192 192 0 0 0 448 186H392A136 136 0 0 1 120 186Z" fill="currentColor"/><circle class="lo" cx="256" cy="214" r="80" fill="currentColor"/></svg><span>Casual<b>/</b>Tech</span></a>
+  <nav class="links" aria-label="Stranice">
+    <a href="#usluge" data-nav="usluge">Usluge</a>
+    <a href="#radovi" data-nav="radovi">Radovi</a>
+    <a href="#proces" data-nav="proces">Proces</a>
+    <a href="#kreator" data-nav="kreator">Kreator ✦</a>
+    <a href="#igra" data-nav="igra">Igra</a>
+    <a href="#cijene" data-nav="cijene">Cijene</a>
+    <a href="#kontakt" data-nav="kontakt">Kontakt</a>
+  </nav>
+  <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="menu">Meni</button>
+</header>
+
+<div class="menu" id="menu" hidden>
+  <ul>
+    <li><a href="#pocetna" data-cur="Idi"><span class="mt">Početna</span><span class="mx" data-xp-route="pocetna">+10 XP</span></a></li>
+    <li><a href="#usluge" data-cur="Idi"><span class="mt">Usluge</span><span class="mx" data-xp-route="usluge">+10 XP</span></a></li>
+    <li><a href="#radovi" data-cur="Idi"><span class="mt">Radovi</span><span class="mx" data-xp-route="radovi">+10 XP</span></a></li>
+    <li><a href="#proces" data-cur="Idi"><span class="mt">Proces</span><span class="mx" data-xp-route="proces">+10 XP</span></a></li>
+    <li><a href="#kreator" data-cur="Igraj"><span class="mt">Kreator ✦</span><span class="mx" data-xp-route="kreator">+10 XP</span></a></li>
+    <li><a href="#igra" data-cur="Igraj"><span class="mt">Igra</span><span class="mx" data-xp-route="igra">+10 XP</span></a></li>
+    <li><a href="#cijene" data-cur="Idi"><span class="mt">Cijene</span><span class="mx" data-xp-route="cijene">+10 XP</span></a></li>
+    <li><a href="#kontakt" data-cur="Idi"><span class="mt">Kontakt</span><span class="mx" data-xp-route="kontakt">+10 XP</span></a></li>
+  </ul>
+</div>
+
+<div class="curtain" id="curtain" aria-hidden="true"><span id="curtainT"></span></div>
+
+<main id="main">
+
+  <!-- ================= POČETNA ================= -->
+  <section class="page" data-route="pocetna" aria-labelledby="h-pocetna">
+    <div class="in" id="heroZone">
+      <p class="eyebrow"><span class="dot"></span>CASUAL TECHNOLOGY · Beograd · SaaS, web i AI</p>
+      <h1 class="mega" id="h-pocetna" tabindex="-1" aria-label="Dizajn, kod i vibe">
+        <span class="line" aria-hidden="true" data-split data-offset="0">Dizajn</span>
+        <span class="line outline" aria-hidden="true" data-split data-offset="6">Kod</span>
+        <span class="line" aria-hidden="true" data-split data-offset="9">&amp; vibe</span>
+      </h1>
+      <p class="role">Aladin Kurtanovic gradi <span class="scr" id="scr">SaaS proizvode</span></p>
+      <div class="actions">
+        <a class="btn btn-primary magnet" href="#kreator" data-cur="Igraj">Složi svoj projekat ✦</a>
+        <a class="btn magnet" href="#igra" data-cur="Igraj">Igraj igru</a>
+      </div>
+      <p class="orb-hint" id="orbHint">Psst. Klikni bilo gdje na prazan dio ekrana. Kugla reaguje.</p>
+    </div>
+
+    <div class="marquee" aria-hidden="true">
+      <div id="mq">
+        <div class="mq-track">
+          <span>SaaS dizajn <em>✦</em></span><span>Full-stack <em>✦</em></span><span>AI chatbotovi <em>✦</em></span><span>Web sajtovi <em>✦</em></span><span>Automatizacija <em>✦</em></span><span>Vibe <em>✦</em></span>
+          <span>SaaS dizajn <em>✦</em></span><span>Full-stack <em>✦</em></span><span>AI chatbotovi <em>✦</em></span><span>Web sajtovi <em>✦</em></span><span>Automatizacija <em>✦</em></span><span>Vibe <em>✦</em></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="in manifesto">
+      <p class="label">/ Studio</p>
+      <p class="big-copy" style="margin-top:18px">CASUAL TECHNOLOGY je studio jednog čovjeka. <em>Ozbiljan kod,</em> opušten pristup. Dizajniram SaaS proizvode, pišem full-stack kod i pravim <em>AI chatbote</em> koji rade dok vi spavate.</p>
+    </div>
+
+    <div class="in idx-wrap">
+      <p class="label">/ Indeks</p>
+      <ul class="idx">
+        <li><a href="#usluge" data-cur="Otvori"><span class="t">Usluge</span><span class="d">Šest stvari koje radim od početka do kraja</span><span class="x" data-xp-route="usluge">+10 XP</span></a></li>
+        <li><a href="#radovi" data-cur="Gledaj"><span class="t">Radovi</span><span class="d">Webshopovi, AI i web aplikacije</span><span class="x" data-xp-route="radovi">+10 XP</span></a></li>
+        <li><a href="#proces" data-cur="Igraj"><span class="t">Proces</span><span class="d">Put projekta u 5 nivoa</span><span class="x" data-xp-route="proces">+10 XP</span></a></li>
+        <li><a href="#kreator" data-cur="Igraj"><span class="t">Kreator ✦</span><span class="d">Složi projekat kao kartu u igri i vidi cijenu</span><span class="x" data-xp-route="kreator">+10 XP</span></a></li>
+        <li><a href="#igra" data-cur="Igraj"><span class="t">Igra</span><span class="d">Uhvati kuglu: arkadna igra s logom studija</span><span class="x" data-xp-route="igra">+10 XP</span></a></li>
+        <li><a href="#cijene" data-cur="Otvori"><span class="t">Cijene</span><span class="d">Jasni rasponi, bez iznenađenja</span><span class="x" data-xp-route="cijene">+10 XP</span></a></li>
+        <li><a href="#kontakt" data-cur="Piši"><span class="t">Kontakt</span><span class="d">Telefon i LinkedIn</span><span class="x" data-xp-route="kontakt">+10 XP</span></a></li>
+      </ul>
+
+      <div class="teaser glass">
+        <div>
+          <h2>Ovaj sajt je igra</h2>
+          <p>Skupljaj XP dok istražuješ: posjeti stranice, prođi nivoe projekta, složi legendarnu kartu, obori rekord u igri Uhvati kuglu i pronađi skrivene stvari. Na najvišem nivou otključavaš nagradu.</p>
+        </div>
+        <button class="btn btn-primary" type="button" data-open-quests data-cur="Misije">Pogledaj misije</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= USLUGE ================= -->
+  <section class="page" data-route="usluge" aria-labelledby="h-usluge" hidden>
+    <div class="in">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow"><span class="dot"></span>/ Usluge</p>
+          <h1 class="mega" id="h-usluge" tabindex="-1" aria-label="Usluge"><span class="line" aria-hidden="true" data-split>Šta</span><span class="line outline" aria-hidden="true" data-split data-offset="3">radim</span></h1>
+        </div>
+        <p class="intro">Jedan čovjek za dizajn, kod, AI i održavanje. Kliknite uslugu za detalje, pa je pošaljite u Kreator.</p>
+      </div>
+      <div class="svc-list">
+        <div class="svc">
+          <button class="svc-h" type="button" aria-expanded="false" data-cur="Otvori"><span class="svc-t">SaaS UI/UX dizajn</span><span class="svc-p">po dogovoru</span><span class="svc-i" aria-hidden="true">+</span></button>
+          <div class="svc-b" hidden>
+            <p>Dashboard-i, onboarding i dizajn sistemi koji korisnika dovedu do vrijednosti u par klikova. Prototip koji možete kliknuti prije nego što se napiše linija koda.</p>
+            <div class="side"><ul class="tags"><li>Dashboard</li><li>Onboarding</li><li>Dizajn sistem</li><li>Prototip</li></ul><a class="btn" href="#kreator" data-class="saas" data-cur="Igraj">Složi u Kreatoru →</a></div>
+          </div>
+        </div>
+        <div class="svc">
+          <button class="svc-h" type="button" aria-expanded="false" data-cur="Otvori"><span class="svc-t">Full-stack razvoj</span><span class="svc-p">po dogovoru</span><span class="svc-i" aria-hidden="true">+</span></button>
+          <div class="svc-b" hidden>
+            <p>Od baze podataka do zadnjeg piksela: API-ji, prijava korisnika, plaćanja, admin panel i objava na server.</p>
+            <div class="side"><ul class="tags"><li>Frontend</li><li>Backend</li><li>API</li><li>Plaćanja</li></ul><a class="btn" href="#kreator" data-class="saas" data-cur="Igraj">Složi u Kreatoru →</a></div>
+          </div>
+        </div>
+        <div class="svc">
+          <button class="svc-h" type="button" aria-expanded="false" data-cur="Otvori"><span class="svc-t">Web sajtovi</span><span class="svc-p">300 – 800 €</span><span class="svc-i" aria-hidden="true">+</span></button>
+          <div class="svc-b" hidden>
+            <p>Brzi sajtovi za firme, s online rezervacijama, WhatsApp dugmetom i osnovnim SEO-om. Izgledaju dobro na telefonu, gdje dolazi većina klijenata.</p>
+            <div class="side"><ul class="tags"><li>Mobilno</li><li>Rezervacije</li><li>SEO</li><li>Brzina</li></ul><a class="btn" href="#kreator" data-class="sajt" data-cur="Igraj">Složi u Kreatoru →</a></div>
+          </div>
+        </div>
+        <div class="svc">
+          <button class="svc-h" type="button" aria-expanded="false" data-cur="Otvori"><span class="svc-t">AI chatbot</span><span class="svc-p">300 – 1.000 €</span><span class="svc-i" aria-hidden="true">+</span></button>
+          <div class="svc-b" hidden>
+            <p>Bot koji odgovara klijentima 0-24 na WhatsApp-u, Instagramu i sajtu, zna vaše cijene i radno vrijeme, i prebacuje razgovor na vas kad treba.</p>
+            <div class="side"><ul class="tags"><li>WhatsApp</li><li>Instagram</li><li>Sajt</li><li>Rezervacije</li></ul><a class="btn" href="#kreator" data-class="bot" data-cur="Igraj">Složi u Kreatoru →</a></div>
+          </div>
+        </div>
+        <div class="svc">
+          <button class="svc-h" type="button" aria-expanded="false" data-cur="Otvori"><span class="svc-t">Društvene mreže</span><span class="svc-p">300 – 600 € / mj</span><span class="svc-i" aria-hidden="true">+</span></button>
+          <div class="svc-b" hidden>
+            <p>Plan objava, tekstovi i odgovori na komentare i poruke, da profil radi i kad vi nemate vremena.</p>
+            <div class="side"><ul class="tags"><li>Plan objava</li><li>Tekstovi</li><li>Odgovori</li></ul><a class="btn" href="#kreator" data-class="social" data-cur="Igraj">Složi u Kreatoru →</a></div>
+          </div>
+        </div>
+        <div class="svc">
+          <button class="svc-h" type="button" aria-expanded="false" data-cur="Otvori"><span class="svc-t">Održavanje</span><span class="svc-p">30 – 60 € / mj</span><span class="svc-i" aria-hidden="true">+</span></button>
+          <div class="svc-b" hidden>
+            <p>Hosting, domen, male izmjene, sigurnosna ažuriranja i mjesečni pregled šta radi, a šta ne.</p>
+            <div class="side"><ul class="tags"><li>Hosting</li><li>Sigurnost</li><li>Izmjene</li></ul><a class="btn" href="#kreator" data-class="sajt" data-cur="Igraj">Složi u Kreatoru →</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RADOVI ================= -->
+  <section class="page" data-route="radovi" aria-labelledby="h-radovi" hidden>
+    <div class="in">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow"><span class="dot"></span>/ Radovi</p>
+          <h1 class="mega" id="h-radovi" tabindex="-1" aria-label="Radovi"><span class="line" aria-hidden="true" data-split>Radovi</span></h1>
+        </div>
+        <p class="intro">Webshopovi, AI i web aplikacije koje sam dizajnirao i napravio. Kliknite karticu i sajt se otvara u novom tabu.</p>
+      </div>
+      <div class="work">
+        <button class="star" id="star" type="button" aria-label="Skrivena zvijezda" data-cur="?">✦</button>
+        <a class="wcard" href="https://soluciofashion.com" target="_blank" rel="noopener" data-cur="Otvori ↗"><div class="mesh" style="--a:0deg"></div><span class="soon" aria-hidden="true">↗</span><p class="k">Webshop · Moda</p><h3>Solucio Fashion</h3><p class="desc">Online prodavnica za modni brend.</p><p class="dom">soluciofashion.com</p></a>
+        <a class="wcard" href="https://exitdenim.shop/" target="_blank" rel="noopener" data-cur="Otvori ↗"><div class="mesh" style="--a:60deg"></div><span class="soon" aria-hidden="true">↗</span><p class="k">Webshop · Denim</p><h3>Exit Denim</h3><p class="desc">Online prodavnica za denim brend.</p><p class="dom">exitdenim.shop</p></a>
+        <a class="wcard" href="https://murocollection.com/" target="_blank" rel="noopener" data-cur="Otvori ↗"><div class="mesh" style="--a:120deg"></div><span class="soon" aria-hidden="true">↗</span><p class="k">Brend · Kolekcija</p><h3>Muro Collection</h3><p class="desc">Sajt i online prodaja za kolekciju brenda Muro.</p><p class="dom">murocollection.com</p></a>
+        <a class="wcard" href="https://ai-nekretnine.app" target="_blank" rel="noopener" data-cur="Otvori ↗"><div class="mesh" style="--a:180deg"></div><span class="soon" aria-hidden="true">↗</span><p class="k">AI aplikacija · Nekretnine</p><h3>AI Nekretnine</h3><p class="desc">Aplikacija koja koristi AI za tržište nekretnina.</p><p class="dom">ai-nekretnine.app</p></a>
+        <a class="wcard" href="https://ozer-chem-hub.lovable.app" target="_blank" rel="noopener" data-cur="Otvori ↗"><div class="mesh" style="--a:240deg"></div><span class="soon" aria-hidden="true">↗</span><p class="k">Web platforma · Hemija</p><h3>Ozer Chem Hub</h3><p class="desc">Web platforma za hemijsku kompaniju Ozer.</p><p class="dom">ozer-chem-hub.lovable.app</p></a>
+        <a class="wcard" href="https://smartvaktija.lovable.app/" target="_blank" rel="noopener" data-cur="Otvori ↗"><div class="mesh" style="--a:300deg"></div><span class="soon" aria-hidden="true">↗</span><p class="k">Web aplikacija · Vaktija</p><h3>Smart Vaktija</h3><p class="desc">Vaktija u pametnoj web aplikaciji.</p><p class="dom">smartvaktija.lovable.app</p></a>
+        <a class="wcard invite" href="#kreator" data-cur="Igraj"><span class="big" aria-hidden="true">↗</span><p class="k">Slobodan termin</p><h3>Vaš projekat može biti sljedeći</h3></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROCES ================= -->
+  <section class="page" data-route="proces" aria-labelledby="h-proces" hidden>
+    <div class="in">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow"><span class="dot"></span>/ Proces</p>
+          <h1 class="mega" id="h-proces" tabindex="-1" aria-label="Put projekta"><span class="line" aria-hidden="true" data-split>Put</span><span class="line outline" aria-hidden="true" data-split data-offset="3">projekta</span></h1>
+        </div>
+        <p class="intro">Svaki projekat je igra u pet nivoa. Kliknite nivo koji svijetli da ga završite i otkrijete nagradu.</p>
+      </div>
+      <ol class="map" id="map">
+        <span class="map-fill" id="mapFill" aria-hidden="true"></span>
+        <li class="lvl"><button class="lvl-node" type="button" data-cur="Završi">LVL 1</button><div class="lvl-c glass"><h3>Razgovor</h3><p>Kratak poziv da razumijem vaš biznis, klijente i cilj.</p><p class="rw" data-rw="Nagrada: jasan cilj projekta"></p></div></li>
+        <li class="lvl"><button class="lvl-node" type="button" data-cur="Završi">LVL 2</button><div class="lvl-c glass"><h3>Ponuda</h3><p>Pisani prijedlog s obimom posla, rokom i fiksnom cijenom.</p><p class="rw" data-rw="Nagrada: nema skrivenih troškova"></p></div></li>
+        <li class="lvl"><button class="lvl-node" type="button" data-cur="Završi">LVL 3</button><div class="lvl-c glass"><h3>Dizajn</h3><p>Prototip koji možete kliknuti prije nego što se napiše linija koda.</p><p class="rw" data-rw="Nagrada: vidite proizvod unaprijed"></p></div></li>
+        <li class="lvl"><button class="lvl-node" type="button" data-cur="Završi">LVL 4</button><div class="lvl-c glass"><h3>Razvoj</h3><p>Izrada i testiranje na telefonu i računaru, uz vaše izmjene.</p><p class="rw" data-rw="Nagrada: proizvod koji radi svuda"></p></div></li>
+        <li class="lvl"><button class="lvl-node" type="button" data-cur="Završi">BOSS</button><div class="lvl-c glass"><h3>Lansiranje</h3><p>Objava, obuka za korištenje i održavanje po potrebi.</p><p class="rw" data-rw="Nagrada: projekat je živ"></p></div></li>
+      </ol>
+      <div class="boss" id="boss" hidden>Projekat lansiran. Svih 5 nivoa pređeno ✦</div>
+    </div>
+  </section>
+
+  <!-- ================= KREATOR ================= -->
+  <section class="page" data-route="kreator" aria-labelledby="h-kreator" hidden>
+    <div class="in">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow"><span class="dot"></span>/ Kreator projekta</p>
+          <h1 class="mega sm" id="h-kreator" tabindex="-1" aria-label="Kreator projekta"><span class="line" aria-hidden="true" data-split>Kreator</span><span class="line outline" aria-hidden="true" data-split data-offset="7">projekta</span></h1>
+        </div>
+        <p class="intro">Izaberite klasu, dodajte pojačanja i gledajte kako karta raste. Više pojačanja, rjeđa karta. Cijene su okvirne.</p>
+      </div>
+      <div class="kre">
+        <div>
+          <div class="step">
+            <p class="label">Korak 1</p>
+            <h2>Izaberite klasu</h2>
+            <div class="classes" role="radiogroup" aria-label="Klasa projekta" id="classes"></div>
+          </div>
+          <div class="step">
+            <p class="label">Korak 2</p>
+            <h2>Dodajte pojačanja</h2>
+            <div class="addons" id="addons" role="group" aria-label="Pojačanja"></div>
+          </div>
+          <div class="step field">
+            <label for="pname">Korak 3 · Ime projekta</label>
+            <input id="pname" type="text" maxlength="40" value="Moj projekat" autocomplete="off">
+          </div>
+        </div>
+        <div class="card-wrap">
+          <div class="pcard" id="pcard">
+            <div class="pc-top"><span class="pc-rar" id="pcRar">Obična</span><span id="pcCls">Web sajt</span></div>
+            <div class="pc-art" id="pcArt"></div>
+            <h3 class="pc-name" id="pcName">Moj projekat</h3>
+            <div class="stats" id="pcStats"></div>
+            <div class="pc-add" id="pcAdd"></div>
+            <dl class="pc-meta">
+              <div><dt>Jednokratno</dt><dd id="pcOnce">–</dd></div>
+              <div><dt>Mjesečno</dt><dd id="pcMonth">–</dd></div>
+              <div><dt>Rok</dt><dd id="pcWk">–</dd></div>
+            </dl>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-primary" type="button" id="copyCard" data-cur="Kopiraj">Kopiraj kartu</button>
+            <a class="btn" href="#kontakt" data-cur="Pošalji">Pošalji upit →</a>
+          </div>
+          <p class="note-s">Okvirne cijene. Tačnu cijenu dobijete u pisanoj ponudi nakon razgovora.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= IGRA ================= -->
+  <section class="page" data-route="igra" aria-labelledby="h-igra" hidden>
+    <div class="in">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow"><span class="dot"></span>/ Igra</p>
+          <h1 class="mega" id="h-igra" tabindex="-1" aria-label="Uhvati kuglu"><span class="line" aria-hidden="true" data-split>Uhvati</span><span class="line outline" aria-hidden="true" data-split data-offset="6">kuglu</span></h1>
+        </div>
+        <p class="intro">Logo nije potpun dok kugla ne sjedne u luk. Pomjerajte luk mišem, prstom ili strelicama, hvatajte kugle i izbjegavajte bugove.</p>
+      </div>
+      <div class="game-wrap glass" id="gameWrap">
+        <canvas class="game-canvas" id="gameCanvas" tabindex="0" role="img" aria-label="Igra Uhvati kuglu"></canvas>
+        <div class="g-over" id="gOver">
+          <svg viewBox="60 130 392 252" aria-hidden="true"><path d="M64 186A192 192 0 0 0 448 186H392A136 136 0 0 1 120 186Z" fill="currentColor"/><circle cx="256" cy="214" r="80" fill="currentColor"/></svg>
+          <h2 id="gTitle">Uhvati kuglu</h2>
+          <p id="gText">Kugle padaju, vaš luk ih hvata. Svaki ulov sklopi logo. Tri promašaja ili tri buga i igra je gotova.</p>
+          <div class="g-stats" id="gStats" hidden>
+            <div><b id="gScore">0</b><span>Poeni</span></div>
+            <div><b id="gBest">0</b><span>Rekord</span></div>
+          </div>
+          <div class="actions">
+            <button class="btn btn-primary" type="button" id="gStart" data-cur="Igraj">Igraj</button>
+            <button class="btn" type="button" id="gShare" data-cur="Kopiraj" hidden>Kopiraj rezultat</button>
+          </div>
+          <p class="g-keys">Miš ili prst · ← → ili A D · Razmak za pauzu</p>
+        </div>
+      </div>
+      <div class="legend">
+        <span><i class="lg-orb"></i>Kugla +1</span>
+        <span><i class="lg-big"></i>Velika kugla +3</span>
+        <span><i class="lg-bug"></i>Bug, oduzima život</span>
+        <span><i class="lg-wide"></i>Širi luk 7 s</span>
+        <span><i class="lg-slow"></i>Usporavanje 5 s</span>
+        <span>Svakih 6 ulova zaredom diže kombo množilac</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CIJENE ================= -->
+  <section class="page" data-route="cijene" aria-labelledby="h-cijene" hidden>
+    <div class="in">
+      <div class="head-row">
+        <div>
+          <p class="eyebrow"><span class="dot"></span>/ Cijene</p>
+          <h1 class="mega" id="h-cijene" tabindex="-1" aria-label="Cijene"><span class="line" aria-hidden="true" data-split>Cijene</span></h1>
+        </div>
+        <p class="intro">Okvirni rasponi. Tačnu cijenu dobijete u pisanoj ponudi nakon prvog razgovora.</p>
+      </div>
+      <div class="prices">
+        <div class="prow"><h3>Web sajt</h3><p>Do 5 stranica, mobilna verzija, kontakt forma, WhatsApp dugme.</p><div class="pr">300 – 800 €</div></div>
+        <div class="prow"><h3>Održavanje sajta</h3><p>Hosting, domen, male izmjene, sigurnosna ažuriranja.</p><div class="pr">30 – 60 €<small>/mj</small></div></div>
+        <div class="prow"><h3>AI chatbot</h3><p>Postavka bota, baza znanja o vašem biznisu, jedan kanal.</p><div class="pr">300 – 1.000 €</div></div>
+        <div class="prow"><h3>Chatbot paušal</h3><p>Praćenje razgovora, nova pitanja i odgovori, izvještaj.</p><div class="pr">100 – 200 €<small>/mj</small></div></div>
+        <div class="prow"><h3>Društvene mreže</h3><p>Plan objava, tekstovi, odgovori na komentare i poruke.</p><div class="pr">300 – 600 €<small>/mj</small></div></div>
+        <div class="prow"><h3>SaaS ili aplikacija</h3><p>Dizajn, frontend i backend, prema obimu funkcionalnosti.</p><div class="pr">Po dogovoru</div></div>
+      </div>
+      <div class="teaser glass">
+        <div><h2>Radije biste igrali?</h2><p>U Kreatoru složite projekat od klase i pojačanja i odmah vidite okvirnu cijenu i rok.</p></div>
+        <a class="btn btn-primary magnet" href="#kreator" data-cur="Igraj">Otvori Kreator ✦</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= KONTAKT ================= -->
+  <section class="page" data-route="kontakt" aria-labelledby="h-kontakt" hidden>
+    <div class="in">
+      <p class="eyebrow"><span class="dot"></span>/ Kontakt</p>
+      <h1 class="mega sm" id="h-kontakt" tabindex="-1" aria-label="Imate projekat?"><span class="line" aria-hidden="true" data-split>Imate</span><span class="line outline" aria-hidden="true" data-split data-offset="5">projekat?</span></h1>
+      <div class="crow">
+        <span class="phone" id="phone">065 371 2712</span>
+        <button class="btn btn-primary" type="button" id="copyPhone" data-cur="Kopiraj">Kopiraj broj</button>
+        <a class="btn" href="https://rs.linkedin.com/in/aladin-strategic-marketing" target="_blank" rel="noopener" data-cur="LinkedIn">LinkedIn ↗</a>
+      </div>
+      <p class="intro" style="margin-top:22px">Pozovite ili pošaljite poruku s kratkim opisom: šta radite, šta vam treba i do kada.</p>
+      <div class="kcard glass" id="kcard" hidden>
+        <p class="label">Vaša karta iz Kreatora</p>
+        <pre id="kSum"></pre>
+        <button class="btn" type="button" id="copySum" data-cur="Kopiraj">Kopiraj opis za poruku</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="in"><span>© 2026 CASUAL TECHNOLOGY</span><span>Dizajn i kod: Aladin Kurtanovic</span></div>
+</footer>
+
+<div class="hud">
+  <button class="hud-btn glass" id="hudBtn" type="button" aria-expanded="false" aria-controls="quests" data-cur="Misije">
+    <span class="hud-lvl" id="hudLvl">LVL 1</span>
+    <span class="hud-name" id="hudName">Posjetilac</span>
+    <span class="hud-bar" aria-hidden="true"><i id="hudBar"></i></span>
+    <span class="hud-xp" id="hudXp">0 XP</span>
+  </button>
+</div>
+<aside class="quests glass" id="quests" aria-label="Misije" hidden>
+  <p class="label">Misije</p>
+  <h2 id="qTitle">Posjetilac</h2>
+  <p class="sub" id="qSub">0 od 9 misija</p>
+  <ul class="qlist" id="qlist"></ul>
+  <div class="reward" id="reward" hidden>
+    <b>Nagrada otključana</b>
+    Spomenite kod <code>CASUAL-XP</code> u poruci i dobijate besplatnu konsultaciju i prioritetni termin.
+  </div>
+  <div class="q-foot">
+    <button class="mini" type="button" id="soundBtn" aria-pressed="false">Zvuk: isključen</button>
+    <button class="mini" type="button" id="resetBtn">Kreni ispočetka</button>
+  </div>
+</aside>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<div class="cur" id="cur" aria-hidden="true"><i></i><span id="curT"></span></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var fine = window.matchMedia("(pointer: fine)").matches;
+  var root = document.documentElement;
+
+  /* ---------- split headings ---------- */
+  $$("[data-split]").forEach(function (el) {
+    var text = el.textContent.trim();
+    var off = parseInt(el.getAttribute("data-offset") || "0", 10);
+    el.textContent = "";
+    Array.prototype.forEach.call(text, function (c, i) {
+      var s = document.createElement("span");
+      s.className = "ch";
+      s.style.setProperty("--i", i + off);
+      s.textContent = c === " " ? " " : c;
+      el.appendChild(s);
+    });
+  });
+
+  /* ---------- grain ---------- */
+  try {
+    var gc = document.createElement("canvas"); gc.width = gc.height = 140;
+    var gx = gc.getContext("2d"), img = gx.createImageData(140, 140);
+    for (var i = 0; i < img.data.length; i += 4) { var v = Math.random() * 255; img.data[i] = img.data[i + 1] = img.data[i + 2] = v; img.data[i + 3] = 255; }
+    gx.putImageData(img, 0, 0);
+    $("#grain").style.backgroundImage = "url(" + gc.toDataURL() + ")";
+  } catch (e) {}
+
+  /* ---------- game state ---------- */
+  var KEY = "ct-game-v1";
+  var S = { xp: 0, done: {}, visited: {}, proc: 0, orb: 0, sound: false, kre: { cls: "sajt", add: {}, name: "Moj projekat" }, touched: false };
+  try { var raw = localStorage.getItem(KEY); if (raw) { var p = JSON.parse(raw); for (var k in p) S[k] = p[k]; } } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+  var LEVELS = [
+    { n: "Posjetilac", min: 0 },
+    { n: "Istraživač", min: 120 },
+    { n: "Insajder", min: 280 },
+    { n: "Legenda", min: 480 }
+  ];
+  var MISSIONS = [
+    { id: "start", t: "Uđi u igru", d: "Otvori sajt.", xp: 10 },
+    { id: "explore", t: "Istraživač", d: "Posjeti svih 8 stranica.", xp: 50 },
+    { id: "gamer", t: "Igrač", d: "Osvoji 20 poena u igri Uhvati kuglu.", xp: 50 },
+    { id: "champ", t: "Šampion", d: "Osvoji 60 poena u igri Uhvati kuglu.", xp: 80 },
+    { id: "orb", t: "Probudi kuglu", d: "Klikni 5 puta na prazan dio početne stranice.", xp: 30 },
+    { id: "process", t: "Prođi put", d: "Završi svih 5 nivoa na stranici Proces.", xp: 40 },
+    { id: "build", t: "Kreator", d: "Složi projekat s bar 3 pojačanja.", xp: 50 },
+    { id: "legend", t: "Legendarna karta", d: "Složi legendarnu kartu u Kreatoru.", xp: 80 },
+    { id: "star", t: "Skrivena zvijezda", d: "Pronađi skrivenu ✦ na stranici Radovi.", xp: 40 },
+    { id: "contact", t: "Na vezi", d: "Kopiraj broj telefona na stranici Kontakt.", xp: 40 },
+    { id: "secret", t: "???", reveal: "Hakerski nivo", d: "Tajna misija. Logo krije nešto.", xp: 60 }
+  ];
+  var ROUTES = { pocetna: "Početna", usluge: "Usluge", radovi: "Radovi", proces: "Proces", kreator: "Kreator", igra: "Igra", cijene: "Cijene", kontakt: "Kontakt" };
+  var ROUTE_KEYS = Object.keys(ROUTES);
+  var PAGE_COLOR = { pocetna: "#8c96ff", usluge: "#b7a4ff", radovi: "#7fd3ff", proces: "#8ee6cf", kreator: "#e0a6ff", igra: "#6ef0c2", cijene: "#7fd3ff", kontakt: "#8c96ff" };
+
+  function levelOf(xp) { var li = 0; LEVELS.forEach(function (l, k) { if (xp >= l.min) li = k; }); return li; }
+
+  /* sound */
+  var actx = null;
+  function blip(up) {
+    if (!S.sound) return;
+    try {
+      actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+      var t = actx.currentTime, o = actx.createOscillator(), g = actx.createGain();
+      o.type = "triangle";
+      o.frequency.setValueAtTime(up ? 523 : 660, t);
+      o.frequency.exponentialRampToValueAtTime(up ? 1046 : 990, t + 0.12);
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.14, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.28);
+      o.connect(g); g.connect(actx.destination);
+      o.start(t); o.stop(t + 0.3);
+    } catch (e) {}
+  }
+
+  /* confetti */
+  var fx = $("#fx"), fctx = fx.getContext("2d"), parts = [], fxRun = false;
+  function confetti(n) {
+    if (reduce) return;
+    fx.width = innerWidth; fx.height = innerHeight;
+    var cols = ["#8c96ff", "#2b3bff", "#e0a6ff", "#6ef0c2", "#7fd3ff", "#eef0ff"];
+    for (var i = 0; i < (n || 140); i++) {
+      parts.push({ x: innerWidth / 2 + (Math.random() - 0.5) * 200, y: innerHeight * 0.55, vx: (Math.random() - 0.5) * 16, vy: -Math.random() * 16 - 6, r: Math.random() * 6 + 3, c: cols[i % cols.length], a: Math.random() * 6, va: (Math.random() - 0.5) * 0.4, life: 0 });
+    }
+    if (!fxRun) { fxRun = true; requestAnimationFrame(fxTick); }
+  }
+  function fxTick() {
+    fctx.clearRect(0, 0, fx.width, fx.height);
+    parts = parts.filter(function (p) { return p.life < 160 && p.y < fx.height + 40; });
+    parts.forEach(function (p) {
+      p.life++; p.vy += 0.42; p.vx *= 0.99; p.x += p.vx; p.y += p.vy; p.a += p.va;
+      fctx.save(); fctx.translate(p.x, p.y); fctx.rotate(p.a); fctx.fillStyle = p.c;
+      fctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r); fctx.restore();
+    });
+    if (parts.length) requestAnimationFrame(fxTick); else { fxRun = false; fctx.clearRect(0, 0, fx.width, fx.height); }
+  }
+
+  /* toasts */
+  var toasts = $("#toasts");
+  function toast(title, badge, big) {
+    var el = document.createElement("div");
+    el.className = "toast" + (big ? " big" : "");
+    var b = document.createElement("span"); b.className = "tb"; b.textContent = badge;
+    var t = document.createElement("span"); t.textContent = title;
+    el.appendChild(b); el.appendChild(t);
+    toasts.appendChild(el);
+    while (toasts.children.length > 3) toasts.removeChild(toasts.firstChild);
+    setTimeout(function () { el.classList.add("out"); }, 2800);
+    setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 3300);
+  }
+
+  var hudBtn = $("#hudBtn");
+  function addXP(n, msg) {
+    var before = levelOf(S.xp);
+    S.xp += n; save();
+    toast(msg, "+" + n + " XP");
+    blip(false);
+    hudBtn.classList.remove("bump"); void hudBtn.offsetWidth; hudBtn.classList.add("bump");
+    var after = levelOf(S.xp);
+    if (after > before) {
+      setTimeout(function () {
+        toast("Novi nivo: " + LEVELS[after].n, "LVL " + (after + 1), true);
+        blip(true); confetti(after === LEVELS.length - 1 ? 220 : 120);
+      }, 700);
+    }
+    renderHUD();
+  }
+  function complete(id) {
+    if (S.done[id]) return;
+    var m = MISSIONS.filter(function (x) { return x.id === id; })[0];
+    if (!m) return;
+    S.done[id] = true;
+    addXP(m.xp, "Misija: " + (m.reveal || m.t));
+    if (id === "legend" || id === "secret") confetti(160);
+  }
+
+  function renderHUD() {
+    var li = levelOf(S.xp), cur = LEVELS[li], nxt = LEVELS[li + 1];
+    $("#hudLvl").textContent = "LVL " + (li + 1);
+    $("#hudName").textContent = cur.n;
+    $("#hudXp").textContent = S.xp + " XP";
+    var pct = nxt ? (S.xp - cur.min) / (nxt.min - cur.min) : 1;
+    $("#hudBar").style.transform = "scaleX(" + Math.max(0, Math.min(pct, 1)) + ")";
+    $("#qTitle").textContent = "LVL " + (li + 1) + " · " + cur.n;
+    var doneCount = MISSIONS.filter(function (m) { return S.done[m.id]; }).length;
+    var visitedCount = ROUTE_KEYS.filter(function (r) { return S.visited[r]; }).length;
+    $("#qSub").textContent = doneCount + " od " + MISSIONS.length + " misija · " + (nxt ? (nxt.min - S.xp) + " XP do nivoa " + nxt.n : "maksimalan nivo");
+    var ql = $("#qlist"); ql.textContent = "";
+    MISSIONS.forEach(function (m) {
+      var d = !!S.done[m.id];
+      var li2 = document.createElement("li"); li2.className = "q" + (d ? " done" : "");
+      var c = document.createElement("span"); c.className = "c"; c.textContent = d ? "✓" : "";
+      var body = document.createElement("div");
+      var b = document.createElement("b"); b.textContent = d && m.reveal ? m.reveal : m.t;
+      var s = document.createElement("span"); s.textContent = m.d + (m.id === "explore" && !d ? " (" + visitedCount + "/" + ROUTE_KEYS.length + ")" : "") + ((m.id === "gamer" || m.id === "champ") && !d && S.best ? " (rekord " + S.best + ")" : "") + (m.id === "orb" && !d ? " (" + Math.min(S.orb, 5) + "/5)" : "") + (m.id === "process" && !d ? " (" + S.proc + "/5)" : "");
+      body.appendChild(b); body.appendChild(s);
+      var em = document.createElement("em"); em.textContent = "+" + m.xp;
+      li2.appendChild(c); li2.appendChild(body); li2.appendChild(em);
+      ql.appendChild(li2);
+    });
+    $("#reward").hidden = li < LEVELS.length - 1;
+    $$("[data-xp-route]").forEach(function (el) {
+      var r = el.getAttribute("data-xp-route"), ok = !!S.visited[r];
+      el.textContent = ok ? "✓ Posjećeno" : "+10 XP";
+      el.classList.toggle("ok", ok);
+    });
+  }
+
+  /* quests drawer */
+  var quests = $("#quests");
+  function openQuests() { quests.hidden = false; hudBtn.setAttribute("aria-expanded", "true"); }
+  function closeQuests() { quests.hidden = true; hudBtn.setAttribute("aria-expanded", "false"); }
+  hudBtn.addEventListener("click", function () { quests.hidden ? openQuests() : closeQuests(); });
+  $$("[data-open-quests]").forEach(function (b) { b.addEventListener("click", openQuests); });
+  var soundBtn = $("#soundBtn");
+  function renderSound() { soundBtn.setAttribute("aria-pressed", S.sound ? "true" : "false"); soundBtn.textContent = "Zvuk: " + (S.sound ? "uključen" : "isključen"); }
+  soundBtn.addEventListener("click", function () { S.sound = !S.sound; save(); renderSound(); blip(true); });
+  var resetBtn = $("#resetBtn"), resetArmed = false;
+  resetBtn.addEventListener("click", function () {
+    if (!resetArmed) { resetArmed = true; resetBtn.textContent = "Sigurno? Klikni opet"; setTimeout(function () { resetArmed = false; resetBtn.textContent = "Kreni ispočetka"; }, 3000); return; }
+    S.xp = 0; S.done = {}; S.visited = {}; S.proc = 0; S.orb = 0; S.touched = false; S.kre = { cls: "sajt", add: {}, name: "Moj projekat" };
+    S.visited[current] = true; save();
+    resetArmed = false; resetBtn.textContent = "Kreni ispočetka";
+    renderHUD(); renderProc(); renderKre(); renderContact();
+    toast("Igra je resetovana", "0 XP");
+  });
+  document.addEventListener("click", function (e) {
+    if (!quests.hidden && !quests.contains(e.target) && !hudBtn.contains(e.target) && !e.target.closest("[data-open-quests]")) closeQuests();
+  });
+
+  /* ---------- menu ---------- */
+  var menu = $("#menu"), menuBtn = $("#menuBtn");
+  function openMenu() {
+    menu.hidden = false;
+    requestAnimationFrame(function () { requestAnimationFrame(function () { menu.classList.add("open"); }); });
+    menuBtn.setAttribute("aria-expanded", "true"); menuBtn.textContent = "Zatvori";
+  }
+  function closeMenu() {
+    if (menu.hidden) return;
+    menu.classList.remove("open");
+    menuBtn.setAttribute("aria-expanded", "false"); menuBtn.textContent = "Meni";
+    setTimeout(function () { if (!menu.classList.contains("open")) menu.hidden = true; }, reduce ? 0 : 560);
+  }
+  menuBtn.addEventListener("click", function () { menu.hidden ? openMenu() : closeMenu(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") { closeMenu(); closeQuests(); } });
+
+  /* ---------- router ---------- */
+  var current = null, curtain = $("#curtain"), curtainT = $("#curtainT"), gl = null;
+  function routeFromHash() { var h = (location.hash || "").replace("#", ""); return ROUTES[h] ? h : "pocetna"; }
+  function show(r, focus) {
+    $$(".page").forEach(function (p) { p.hidden = p.getAttribute("data-route") !== r; });
+    current = r;
+    root.style.setProperty("--page", PAGE_COLOR[r]);
+    window.scrollTo(0, 0);
+    $$("[data-nav]").forEach(function (a) { a.classList.toggle("active", a.getAttribute("data-nav") === r); });
+    if (focus) { var h = $('.page[data-route="' + r + '"] h1'); if (h) h.focus({ preventScroll: true }); }
+    if (gl) gl.setRoute(r);
+    if (game) game.onRoute(r);
+    if (r === "kontakt") renderContact();
+    if (r === "kreator") renderKre();
+    if (!S.visited[r]) {
+      S.visited[r] = true; save();
+      addXP(10, "Nova stranica: " + ROUTES[r]);
+      if (ROUTE_KEYS.every(function (k) { return S.visited[k]; })) setTimeout(function () { complete("explore"); }, 900);
+    }
+  }
+  var navTimer1 = null, navTimer2 = null;
+  function go(r) {
+    closeMenu(); closeQuests();
+    if (r === current) return;
+    if (reduce) { show(r, true); return; }
+    clearTimeout(navTimer1); clearTimeout(navTimer2);
+    curtain.style.background = PAGE_COLOR[r];
+    curtainT.textContent = ROUTES[r];
+    curtain.className = "curtain";
+    void curtain.offsetWidth;
+    curtain.className = "curtain cover";
+    navTimer1 = setTimeout(function () { show(r, true); curtain.className = "curtain cover leave"; }, 520);
+    navTimer2 = setTimeout(function () { curtain.className = "curtain"; }, 1080);
+  }
+  window.addEventListener("hashchange", function () { go(routeFromHash()); });
+
+  /* ---------- scramble ---------- */
+  var words = ["SaaS proizvode", "web aplikacije", "AI chatbotove", "sajtove za firme", "automatizacije"];
+  var scr = $("#scr"), glyphs = "!-_/[]{}=+*^?#%$ABCDEFXYZ01", wi = 0;
+  function scrambleTo(next) {
+    var from = scr.textContent, len = Math.max(from.length, next.length), q = [];
+    for (var i = 0; i < len; i++) { var st = Math.floor(Math.random() * 12); q.push({ from: from[i] || "", to: next[i] || "", start: st, end: st + 4 + Math.floor(Math.random() * 14), ch: "" }); }
+    var frame = 0;
+    (function tick() {
+      var out = "", done = 0;
+      for (var k = 0; k < q.length; k++) {
+        var it = q[k];
+        if (frame >= it.end) { done++; out += it.to; }
+        else if (frame >= it.start) { if (!it.ch || Math.random() < 0.28) it.ch = glyphs[Math.floor(Math.random() * glyphs.length)]; out += '<span class="dud">' + it.ch + "</span>"; }
+        else out += it.from;
+      }
+      scr.innerHTML = out;
+      if (done < q.length) { frame++; requestAnimationFrame(tick); }
+    })();
+  }
+  if (!reduce) setInterval(function () { if (current !== "pocetna" || document.hidden) return; wi = (wi + 1) % words.length; scrambleTo(words[wi]); }, 2800);
+
+  /* ---------- pointer, cursor, magnet, tilt ---------- */
+  var mx = 0, my = 0, px = innerWidth / 2, py = innerHeight / 2, cx = px, cy = py;
+  var cur = $("#cur"), curT = $("#curT");
+  var lastMove = 0, pSpeed = 0;
+  addEventListener("pointermove", function (e) {
+    var ddx = e.clientX - px, ddy = e.clientY - py;
+    pSpeed = Math.min(1, pSpeed + Math.sqrt(ddx * ddx + ddy * ddy) / 400);
+    lastMove = performance.now();
+    mx = (e.clientX / innerWidth) * 2 - 1; my = (e.clientY / innerHeight) * 2 - 1;
+    px = e.clientX; py = e.clientY;
+    if (fine && !reduce) {
+      var t = e.target && e.target.closest ? e.target.closest("a,button,[data-cur]") : null;
+      if (t && !t.disabled) { cur.classList.add("hov"); curT.textContent = t.getAttribute("data-cur") || ""; }
+      else { cur.classList.remove("hov"); curT.textContent = ""; }
+      cur.classList.toggle("off", !!(e.target.closest && e.target.closest(".game-canvas")));
+    }
+  }, { passive: true });
+  if (fine && !reduce) {
+    root.classList.add("cur-on");
+    $$(".magnet").forEach(function (b) {
+      b.addEventListener("pointermove", function (e) {
+        var r = b.getBoundingClientRect();
+        b.style.transform = "translate(" + ((e.clientX - r.left - r.width / 2) * 0.25).toFixed(1) + "px," + ((e.clientY - r.top - r.height / 2) * 0.4).toFixed(1) + "px)";
+      });
+      b.addEventListener("pointerleave", function () { b.style.transform = ""; });
+    });
+    var pcard = $("#pcard");
+    pcard.addEventListener("pointermove", function (e) {
+      var r = pcard.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      pcard.style.transition = "transform 0.1s linear, border-color 0.4s, box-shadow 0.4s";
+      pcard.style.transform = "perspective(900px) rotateX(" + ((0.5 - y) * 14).toFixed(2) + "deg) rotateY(" + ((x - 0.5) * 16).toFixed(2) + "deg)";
+      pcard.style.setProperty("--fa", Math.round(x * 360) + "deg");
+    });
+    pcard.addEventListener("pointerleave", function () { pcard.style.transition = ""; pcard.style.transform = ""; });
+  }
+
+  /* ---------- frame loop: progress, marquee skew, cursor ---------- */
+  var progress = $("#progress"), mq = $("#mq"), lastY = scrollY, skew = 0;
+  function updateProgress() {
+    var max = document.documentElement.scrollHeight - innerHeight;
+    progress.style.transform = "scaleX(" + (max > 0 ? Math.min(scrollY / max, 1) : 0) + ")";
+  }
+  if (reduce) { addEventListener("scroll", updateProgress, { passive: true }); }
+  else {
+    (function loop() {
+      var y = scrollY, vel = y - lastY; lastY = y;
+      skew += (Math.max(-14, Math.min(14, vel * 0.3)) - skew) * 0.1;
+      if (gl && Math.abs(vel) > 3) gl.pulse(Math.min(Math.abs(vel) * 0.004, 0.25));
+      mq.style.transform = "skewX(" + (-skew).toFixed(2) + "deg)";
+      updateProgress();
+      if (fine) { cx += (px - cx) * 0.22; cy += (py - cy) * 0.22; cur.style.transform = "translate(" + cx.toFixed(1) + "px," + cy.toFixed(1) + "px)"; }
+      requestAnimationFrame(loop);
+    })();
+  }
+
+  /* ---------- home: orb clicks ---------- */
+  var orbHint = $("#orbHint");
+  $('.page[data-route="pocetna"]').addEventListener("pointerdown", function (e) {
+    if (e.target.closest("a,button,input,.idx,.teaser")) return;
+    if (gl) gl.pulse();
+    if (S.done.orb) return;
+    S.orb++; save();
+    orbHint.textContent = S.orb >= 5 ? "Kugla je budna ✦" : "Kugla se budi: " + S.orb + "/5";
+    if (S.orb >= 5) complete("orb"); else renderHUD();
+  });
+
+  /* ---------- global tap: ripple + pulse ---------- */
+  document.addEventListener("pointerdown", function (e) {
+    mx = (e.clientX / innerWidth) * 2 - 1; my = (e.clientY / innerHeight) * 2 - 1;
+    px = e.clientX; py = e.clientY; lastMove = performance.now();
+    if (e.target.closest("input,.quests,.menu,.hud,.game-wrap")) return;
+    var d = document.createElement("span");
+    d.className = "ripple"; d.style.left = e.clientX + "px"; d.style.top = e.clientY + "px";
+    document.body.appendChild(d);
+    setTimeout(function () { if (d.parentNode) d.parentNode.removeChild(d); }, 950);
+    if (gl) { gl.pulse(0.3); if (gl.kick) gl.kick(e.clientX, e.clientY); }
+  });
+
+  /* ---------- secret: logo ---------- */
+  var logoClicks = 0, logoTimer = null;
+  $("#logo").addEventListener("click", function () {
+    logoClicks++;
+    clearTimeout(logoTimer); logoTimer = setTimeout(function () { logoClicks = 0; }, 2500);
+    if (logoClicks >= 7) { logoClicks = 0; complete("secret"); if (gl) gl.pulse(1.2); }
+  });
+
+  /* ---------- services ---------- */
+  $$(".svc-h").forEach(function (h) {
+    h.addEventListener("click", function () {
+      var open = h.getAttribute("aria-expanded") === "true";
+      h.setAttribute("aria-expanded", open ? "false" : "true");
+      h.nextElementSibling.hidden = open;
+    });
+  });
+  $$("[data-class]").forEach(function (a) {
+    a.addEventListener("click", function () { S.kre.cls = a.getAttribute("data-class"); save(); });
+  });
+
+  /* ---------- work: star ---------- */
+  var star = $("#star");
+  star.addEventListener("click", function () { star.classList.add("found"); complete("star"); });
+  if (S.done.star) star.classList.add("found");
+
+  /* ---------- process ---------- */
+  var lvls = $$(".lvl");
+  function renderProc() {
+    lvls.forEach(function (li, i) {
+      li.classList.toggle("done", i < S.proc);
+      li.classList.toggle("current", i === S.proc);
+      li.classList.toggle("locked", i > S.proc);
+      var b = $(".lvl-node", li);
+      b.disabled = i !== S.proc;
+      b.textContent = i < S.proc ? "✓" : (i === 4 ? "BOSS" : "LVL " + (i + 1));
+      var rw = $(".rw", li);
+      rw.textContent = i < S.proc ? rw.getAttribute("data-rw") : "Nagrada: ???";
+    });
+    $("#mapFill").style.transform = "scaleY(" + Math.min(S.proc / 4, 1) + ")";
+    $("#boss").hidden = S.proc < 5;
+  }
+  lvls.forEach(function (li, i) {
+    $(".lvl-node", li).addEventListener("click", function () {
+      if (i !== S.proc) return;
+      S.proc++; save(); renderProc(); blip(false);
+      if (S.proc >= 5) complete("process");
+      else toast("Nivo " + S.proc + " pređen", "✓");
+    });
+  });
+
+  /* ---------- kreator ---------- */
+  var ICONS = {
+    sajt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/></svg>',
+    saas: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9h18M9 9v11"/><path d="M12.5 13h5M12.5 16.5h3"/></svg>',
+    bot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"/></svg>',
+    social: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><path d="M17.25 14v6.5M14 17.25h6.5"/></svg>'
+  };
+  var CLASSES = {
+    sajt: { n: "Web sajt", price: [300, 800], wk: 2, s: { brzina: 60, moc: 30, doseg: 40, vibe: 40, stit: 20 }, hint: "300 – 800 €" },
+    saas: { n: "SaaS aplikacija", custom: true, wk: 8, s: { brzina: 40, moc: 70, doseg: 40, vibe: 40, stit: 30 }, hint: "po dogovoru" },
+    bot: { n: "AI chatbot", price: [300, 1000], month: [100, 200], wk: 2, s: { brzina: 80, moc: 40, doseg: 30, vibe: 30, stit: 20 }, hint: "300 – 1.000 € + paušal" },
+    social: { n: "Društvene mreže", month: [300, 600], wk: 1, s: { brzina: 40, moc: 20, doseg: 70, vibe: 50, stit: 10 }, hint: "300 – 600 € / mj" }
+  };
+  var ADDONS = [
+    { k: "rez", n: "Online rezervacije", price: [150, 300], wk: 0.5, s: { moc: 10, doseg: 10 } },
+    { k: "jez", n: "Više jezika", price: [100, 200], wk: 0.5, s: { doseg: 20 } },
+    { k: "pay", n: "Online plaćanje", price: [200, 500], wk: 1, s: { moc: 20 } },
+    { k: "blog", n: "Blog", price: [100, 200], wk: 0.5, s: { doseg: 10, vibe: 5 } },
+    { k: "admin", n: "Admin panel", price: [300, 800], wk: 1.5, s: { moc: 25, stit: 5 } },
+    { k: "ai", n: "AI asistent", price: [300, 1000], month: [100, 200], wk: 1, s: { brzina: 20, moc: 10 } },
+    { k: "seo", n: "SEO paket", price: [150, 300], wk: 0.5, s: { doseg: 20 } },
+    { k: "3d", n: "3D i animacije", price: [200, 600], wk: 1, s: { vibe: 35 } },
+    { k: "odr", n: "Održavanje", month: [30, 60], wk: 0, s: { stit: 40 } }
+  ];
+  var STAT_NAMES = { brzina: "Brzina", moc: "Moć", doseg: "Doseg", vibe: "Vibe", stit: "Štit" };
+  var RAR = ["Obična", "Rijetka", "Epska", "Legendarna"];
+  function fmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €"; }
+  function range(r) { return r[1] === 0 ? "–" : fmt(r[0]) + " – " + fmt(r[1]); }
+
+  var clsWrap = $("#classes"), addWrap = $("#addons");
+  Object.keys(CLASSES).forEach(function (k) {
+    var c = CLASSES[k];
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "cls glass"; b.setAttribute("role", "radio"); b.setAttribute("data-k", k); b.setAttribute("data-cur", "Izaberi"); b.id = "cls-" + k;
+    b.innerHTML = ICONS[k] + "<b></b><small></small>";
+    b.querySelector("b").textContent = c.n; b.querySelector("small").textContent = c.hint;
+    b.addEventListener("click", function () { S.kre.cls = k; if (k === "bot") delete S.kre.add.ai; S.touched = true; save(); renderKre(true); });
+    clsWrap.appendChild(b);
+  });
+  ADDONS.forEach(function (a) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.setAttribute("data-k", a.k); b.setAttribute("data-cur", "Dodaj"); b.id = "add-" + a.k;
+    var lbl = a.price ? "+" + fmt(a.price[0]).replace(" €", "") + "–" + fmt(a.price[1]) : "+" + a.month[0] + "–" + a.month[1] + " €/mj";
+    b.textContent = a.n + " ";
+    var sm = document.createElement("small"); sm.textContent = lbl; b.appendChild(sm);
+    b.addEventListener("click", function () {
+      if (S.kre.add[a.k]) delete S.kre.add[a.k]; else S.kre.add[a.k] = true;
+      S.touched = true; save(); renderKre(true);
+    });
+    addWrap.appendChild(b);
+  });
+  var pname = $("#pname");
+  pname.addEventListener("input", function () { S.kre.name = pname.value; S.touched = true; save(); $("#pcName").textContent = pname.value.trim() || "Bez imena"; });
+
+  function computeKre() {
+    var c = CLASSES[S.kre.cls] || CLASSES.sajt, o = [0, 0], m = [0, 0], wk = c.wk, n = 0, st = {}, names = [];
+    for (var s in c.s) st[s] = c.s[s];
+    if (c.price) { o[0] += c.price[0]; o[1] += c.price[1]; }
+    if (c.month) { m[0] += c.month[0]; m[1] += c.month[1]; }
+    ADDONS.forEach(function (a) {
+      if (!S.kre.add[a.k]) return;
+      if (S.kre.cls === "bot" && a.k === "ai") return;
+      n++; names.push(a.n);
+      if (a.price) { o[0] += a.price[0]; o[1] += a.price[1]; }
+      if (a.month) { m[0] += a.month[0]; m[1] += a.month[1]; }
+      wk += a.wk;
+      for (var k in a.s) st[k] = Math.min(100, (st[k] || 0) + a.s[k]);
+    });
+    var rar = n >= 6 ? 3 : n >= 4 ? 2 : n >= 2 ? 1 : 0;
+    var once = c.custom ? (o[1] ? "Po dogovoru + " + range(o) : "Po dogovoru") : range(o);
+    return { c: c, o: o, m: m, wk: wk, n: n, st: st, names: names, rar: rar, once: once, month: m[1] ? range(m) : "–", rok: "~" + Math.ceil(wk) + (c.custom ? "+" : "") + " sedm." };
+  }
+  var lastRar = -1;
+  function summaryText(k) {
+    return "Projekat: " + (S.kre.name.trim() || "Bez imena") +
+      "\nTip: " + k.c.n +
+      "\nPojačanja: " + (k.names.length ? k.names.join(", ") : "nema") +
+      "\nKarta: " + RAR[k.rar] +
+      "\nOkvirno jednokratno: " + k.once +
+      "\nOkvirno mjesečno: " + k.month +
+      "\nOkvirni rok: " + k.rok +
+      "\n(Složeno u Kreatoru na sajtu CASUAL TECHNOLOGY)";
+  }
+  function renderKre(interactive) {
+    var k = computeKre();
+    $$(".cls", clsWrap).forEach(function (b) { b.setAttribute("aria-checked", b.getAttribute("data-k") === S.kre.cls ? "true" : "false"); });
+    $$(".chip", addWrap).forEach(function (b) {
+      var key = b.getAttribute("data-k"), dis = S.kre.cls === "bot" && key === "ai";
+      b.disabled = dis;
+      b.setAttribute("aria-pressed", S.kre.add[key] && !dis ? "true" : "false");
+    });
+    if (document.activeElement !== pname) pname.value = S.kre.name;
+    var card = $("#pcard");
+    card.classList.remove("rar-0", "rar-1", "rar-2", "rar-3");
+    card.classList.add("rar-" + k.rar);
+    if (interactive && lastRar !== -1 && k.rar > lastRar && !reduce) { card.classList.remove("flip"); void card.offsetWidth; card.classList.add("flip"); }
+    lastRar = k.rar;
+    $("#pcRar").textContent = RAR[k.rar] + " karta";
+    $("#pcCls").textContent = k.c.n;
+    $("#pcArt").innerHTML = ICONS[S.kre.cls] || ICONS.sajt;
+    $("#pcName").textContent = S.kre.name.trim() || "Bez imena";
+    var sw = $("#pcStats"); sw.textContent = "";
+    Object.keys(STAT_NAMES).forEach(function (s) {
+      var row = document.createElement("div"); row.className = "stat";
+      var l = document.createElement("span"); l.textContent = STAT_NAMES[s];
+      var tr = document.createElement("span"); tr.className = "tr"; var fill = document.createElement("i"); fill.style.transform = "scaleX(" + (k.st[s] / 100) + ")"; tr.appendChild(fill);
+      var val = document.createElement("span"); val.className = "v"; val.textContent = k.st[s];
+      row.appendChild(l); row.appendChild(tr); row.appendChild(val); sw.appendChild(row);
+    });
+    var ad = $("#pcAdd"); ad.textContent = "";
+    k.names.forEach(function (nm) { var sp = document.createElement("span"); sp.textContent = nm; ad.appendChild(sp); });
+    $("#pcOnce").textContent = k.once;
+    $("#pcMonth").textContent = k.month;
+    $("#pcWk").textContent = k.rok;
+    if (interactive) {
+      if (k.n >= 3) complete("build");
+      if (k.rar === 3) complete("legend");
+    }
+    return k;
+  }
+
+  /* ---------- copy helpers ---------- */
+  function copyText(text, btn, okLabel, selEl) {
+    var orig = btn.getAttribute("data-label") || btn.textContent;
+    btn.setAttribute("data-label", orig);
+    function ok() { btn.textContent = okLabel; setTimeout(function () { btn.textContent = orig; }, 1600); }
+    function fail() {
+      if (selEl) { var r = document.createRange(); r.selectNodeContents(selEl); var s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+      btn.textContent = "Označeno, kopirajte ručno"; setTimeout(function () { btn.textContent = orig; }, 2400);
+    }
+    try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fail); else fail(); } catch (e) { fail(); }
+  }
+  $("#copyPhone").addEventListener("click", function () { copyText("0653712712", this, "Kopirano ✓", $("#phone")); complete("contact"); });
+  $("#copyCard").addEventListener("click", function () { S.touched = true; save(); copyText(summaryText(computeKre()), this, "Karta kopirana ✓", $("#pcard")); });
+  function renderContact() {
+    var kc = $("#kcard");
+    kc.hidden = !S.touched;
+    if (S.touched) $("#kSum").textContent = summaryText(computeKre());
+  }
+  $("#copySum").addEventListener("click", function () { copyText(summaryText(computeKre()), this, "Kopirano ✓", $("#kSum")); });
+
+  /* ---------- WebGL orb ---------- */
+  var NOISE = [
+    "vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}",
+    "vec4 mod289(vec4 x){return x-floor(x*(1.0/289.0))*289.0;}",
+    "vec4 permute(vec4 x){return mod289(((x*34.0)+1.0)*x);}",
+    "vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}",
+    "float snoise(vec3 v){",
+    "  const vec2 C=vec2(1.0/6.0,1.0/3.0); const vec4 D=vec4(0.0,0.5,1.0,2.0);",
+    "  vec3 i=floor(v+dot(v,C.yyy)); vec3 x0=v-i+dot(i,C.xxx);",
+    "  vec3 g=step(x0.yzx,x0.xyz); vec3 l=1.0-g; vec3 i1=min(g.xyz,l.zxy); vec3 i2=max(g.xyz,l.zxy);",
+    "  vec3 x1=x0-i1+C.xxx; vec3 x2=x0-i2+C.yyy; vec3 x3=x0-D.yyy;",
+    "  i=mod289(i);",
+    "  vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));",
+    "  float n_=0.142857142857; vec3 ns=n_*D.wyz-D.xzx;",
+    "  vec4 j=p-49.0*floor(p*ns.z*ns.z); vec4 x_=floor(j*ns.z); vec4 y_=floor(j-7.0*x_);",
+    "  vec4 x=x_*ns.x+ns.yyyy; vec4 y=y_*ns.x+ns.yyyy; vec4 h=1.0-abs(x)-abs(y);",
+    "  vec4 b0=vec4(x.xy,y.xy); vec4 b1=vec4(x.zw,y.zw);",
+    "  vec4 s0=floor(b0)*2.0+1.0; vec4 s1=floor(b1)*2.0+1.0; vec4 sh=-step(h,vec4(0.0));",
+    "  vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy; vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;",
+    "  vec3 p0=vec3(a0.xy,h.x); vec3 p1=vec3(a0.zw,h.y); vec3 p2=vec3(a1.xy,h.z); vec3 p3=vec3(a1.zw,h.w);",
+    "  vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));",
+    "  p0*=norm.x; p1*=norm.y; p2*=norm.z; p3*=norm.w;",
+    "  vec4 m=max(0.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0); m=m*m;",
+    "  return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));",
+    "}"
+  ].join("\n");
+  var VS = [
+    "uniform float uTime; uniform float uAmp; uniform vec3 uDir; uniform float uPull;",
+    "varying vec3 vN; varying vec3 vV; varying float vF;",
+    NOISE,
+    "float field(vec3 p){ return snoise(p*0.9+vec3(0.0,uTime*0.22,0.0))*0.75 + snoise(p*2.4-vec3(uTime*0.35))*0.25; }",
+    "vec3 disp(vec3 p){ vec3 n=normalize(p); float pull=smoothstep(0.5,1.0,dot(n,uDir))*uPull; return n*(1.5+field(n*1.5)*uAmp+pull); }",
+    "void main(){",
+    "  vec3 n=normalize(position);",
+    "  vec3 t=abs(n.y)>0.99?normalize(cross(n,vec3(1.0,0.0,0.0))):normalize(cross(n,vec3(0.0,1.0,0.0)));",
+    "  vec3 b=cross(n,t); float e=0.012;",
+    "  vec3 p0=disp(position); vec3 p1=disp(position+t*e); vec3 p2=disp(position+b*e);",
+    "  vec3 nn=normalize(cross(p1-p0,p2-p0)); nn*=sign(dot(nn,n));",
+    "  vF=field(n*1.5);",
+    "  vec4 mv=modelViewMatrix*vec4(p0,1.0);",
+    "  vV=normalize(-mv.xyz); vN=normalize(normalMatrix*nn);",
+    "  gl_Position=projectionMatrix*mv;",
+    "}"
+  ].join("\n");
+  var FS = [
+    "uniform float uTime; uniform vec3 uColA; uniform vec3 uColB; uniform float uAlpha;",
+    "varying vec3 vN; varying vec3 vV; varying float vF;",
+    "void main(){",
+    "  vec3 N=normalize(vN); vec3 V=normalize(vV);",
+    "  float fres=pow(1.0-max(dot(N,V),0.0),2.0);",
+    "  vec3 deep=vec3(0.03,0.04,0.16); vec3 violet=vec3(0.6,0.42,1.0);",
+    "  vec3 col=mix(deep,uColA,smoothstep(-0.5,0.6,vF));",
+    "  col+=max(dot(N,normalize(vec3(0.5,0.8,0.6))),0.0)*0.18;",
+    "  col=mix(col,violet,fres*0.5);",
+    "  col+=uColB*pow(fres,3.0)*1.3;",
+    "  float lines=smoothstep(0.93,1.0,abs(sin(vF*26.0+uTime*0.6)));",
+    "  col=mix(col,uColB,lines*0.4);",
+    "  gl_FragColor=vec4(col*uAlpha,uAlpha);",
+    "}"
+  ].join("\n");
+
+  function hex(h) { var n = parseInt(h.slice(1), 16); return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255]; }
+  var TARGETS = {
+    pocetna: { x: 2.0, y: 0.1, s: 1.0, nx: 0.2, ny: -1.35, ns: 0.6, amp: 0.32, a: 1.0, A: "#2b3bff", B: "#8c96ff" },
+    usluge: { x: 2.9, y: -0.7, s: 0.75, amp: 0.28, a: 0.8, A: "#5b3bff", B: "#b7a4ff" },
+    radovi: { x: -2.9, y: 1.0, s: 0.72, amp: 0.3, a: 0.8, A: "#0a7fd4", B: "#7fd3ff" },
+    proces: { x: 3.0, y: 1.2, s: 0.65, amp: 0.3, a: 0.8, A: "#0f8f7a", B: "#8ee6cf" },
+    kreator: { x: -3.4, y: -1.6, s: 0.8, amp: 0.45, a: 0.55, A: "#8a2bd4", B: "#e0a6ff" },
+    igra: { x: -3.3, y: 1.5, s: 0.55, amp: 0.3, a: 0.45, A: "#0f9f78", B: "#6ef0c2" },
+    cijene: { x: 3.1, y: -1.3, s: 0.7, amp: 0.28, a: 0.8, A: "#2b3bff", B: "#7fd3ff" },
+    kontakt: { x: 3.3, y: 0.4, s: 0.9, amp: 0.45, a: 0.85, A: "#2b3bff", B: "#8c96ff" }
+  };
+
+  function initGL() {
+    if (!window.THREE) throw new Error("no three");
+    var canvas = $("#bg");
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setClearColor(0x000000, 0);
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+    camera.position.set(0, 0, 7.5);
+    var small = Math.min(innerWidth, innerHeight) < 700;
+
+    var uniforms = { uTime: { value: 0 }, uAmp: { value: 0.3 }, uColA: { value: new THREE.Vector3() }, uColB: { value: new THREE.Vector3() }, uAlpha: { value: 1 }, uDir: { value: new THREE.Vector3(0, 0, 1) }, uPull: { value: 0.2 } };
+    var blob = new THREE.Mesh(new THREE.IcosahedronGeometry(1.5, small ? 28 : 52), new THREE.ShaderMaterial({ uniforms: uniforms, vertexShader: VS, fragmentShader: FS, transparent: true }));
+    var group = new THREE.Group(); group.add(blob);
+    var wireMat = new THREE.MeshBasicMaterial({ color: 0x2b3bff, wireframe: true, transparent: true, opacity: 0.22 });
+    var wire = new THREE.Mesh(new THREE.IcosahedronGeometry(2.3, 2), wireMat); group.add(wire);
+    scene.add(group);
+
+    var N = small ? 700 : 1500, pos = new Float32Array(N * 3);
+    for (var i = 0; i < N; i++) {
+      var r = 3 + Math.random() * 8, th = Math.random() * Math.PI * 2, ph = Math.acos(2 * Math.random() - 1);
+      pos[i * 3] = r * Math.sin(ph) * Math.cos(th); pos[i * 3 + 1] = r * Math.sin(ph) * Math.sin(th); pos[i * 3 + 2] = r * Math.cos(ph) * 0.6 - 3;
+    }
+    var seeds = new Float32Array(N);
+    for (var j = 0; j < N; j++) seeds[j] = Math.random();
+    var pg = new THREE.BufferGeometry();
+    pg.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    pg.setAttribute("aSeed", new THREE.BufferAttribute(seeds, 1));
+    var pUni = { uTime: { value: 0 }, uSize: { value: 3.2 * Math.min(window.devicePixelRatio || 1, 2) }, uCol: { value: new THREE.Vector3(0.67, 0.7, 1.0) } };
+    var pts = new THREE.Points(pg, new THREE.ShaderMaterial({
+      uniforms: pUni, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+      vertexShader: [
+        "attribute float aSeed; uniform float uTime; uniform float uSize; varying float vA;",
+        "void main(){",
+        "  vec3 p=position;",
+        "  p.x+=sin(uTime*0.35+aSeed*6.2831)*0.45;",
+        "  p.y+=cos(uTime*0.28+aSeed*12.566)*0.45;",
+        "  p.z+=sin(uTime*0.2+aSeed*3.14)*0.3;",
+        "  vec4 mv=modelViewMatrix*vec4(p,1.0);",
+        "  gl_PointSize=max(uSize*(0.5+aSeed)*(7.5/max(-mv.z,0.1)),0.0);",
+        "  vA=0.35+0.65*abs(sin(uTime*(0.6+aSeed)+aSeed*20.0));",
+        "  gl_Position=projectionMatrix*mv;",
+        "}"
+      ].join("\n"),
+      fragmentShader: [
+        "uniform vec3 uCol; varying float vA;",
+        "void main(){ vec2 c=gl_PointCoord-0.5; float d=length(c); if(d>0.5) discard; float a=smoothstep(0.5,0.0,d)*vA; gl_FragColor=vec4(uCol*a,a); }"
+      ].join("\n")
+    }));
+    scene.add(pts);
+
+    var narrow = false;
+    function layout() {
+      var w = canvas.clientWidth, h = canvas.clientHeight;
+      if (!w || !h) return;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h; camera.updateProjectionMatrix();
+      narrow = w < 760;
+    }
+    layout();
+
+    var st = { x: 2, y: 0, s: 1, arc: 0, amp: 0.3, a: 1, A: hex("#2b3bff"), B: hex("#8c96ff") };
+    var tg = null, pulse = 0;
+    function target(r) {
+      var t = TARGETS[r] || TARGETS.pocetna;
+      var useN = narrow && t.nx !== undefined;
+      return { x: useN ? t.nx : (narrow ? t.x * 0.22 : t.x), y: useN ? t.ny : (narrow ? t.y * 0.6 + 0.4 : t.y), s: useN ? t.ns : (narrow ? t.s * 0.72 : t.s), arc: t.arc || 0, amp: t.amp, a: narrow && r !== "pocetna" && r !== "kontakt" ? t.a * 0.6 : t.a, A: hex(t.A), B: hex(t.B) };
+    }
+    var currentRoute = "pocetna";
+    tg = target(currentRoute);
+    st.x = tg.x; st.y = tg.y; st.s = tg.s; st.arc = tg.arc; st.amp = tg.amp; st.a = tg.a; st.A = tg.A.slice(); st.B = tg.B.slice();
+    var rx = 0, ry = 0, t0 = performance.now();
+
+    var speed = reduce ? 0.35 : 1, pull = 0.2, dirV = new THREE.Vector3(), qInv = new THREE.Quaternion();
+    function render() {
+      var now = performance.now(), t = (now - t0) / 1000 * speed, k = 0.045;
+      var idle = now - lastMove > 3000;
+      var amx = idle ? Math.sin(t * 0.4) * 0.6 : mx, amy = idle ? Math.cos(t * 0.3) * 0.45 : my;
+      pSpeed *= 0.95;
+      st.x += (tg.x - st.x) * k; st.y += (tg.y - st.y) * k; st.s += (tg.s - st.s) * k; st.amp += (tg.amp - st.amp) * k; st.a += (tg.a - st.a) * k; st.arc += (tg.arc - st.arc) * k;
+      for (var c = 0; c < 3; c++) { st.A[c] += (tg.A[c] - st.A[c]) * k; st.B[c] += (tg.B[c] - st.B[c]) * k; }
+      var sc = Math.min(scrollY / Math.max(innerHeight, 1), 1.5);
+      rx += (amy * 0.35 - rx) * 0.05; ry += (amx * 0.5 - ry) * 0.05;
+      pulse *= 0.94;
+      uniforms.uTime.value = t;
+      uniforms.uAmp.value = st.amp + sc * 0.15 + pulse;
+      uniforms.uColA.value.set(st.A[0], st.A[1], st.A[2]);
+      uniforms.uColB.value.set(st.B[0], st.B[1], st.B[2]);
+      uniforms.uAlpha.value = st.a;
+      wireMat.color.setRGB(st.A[0], st.A[1], st.A[2]); wireMat.opacity = 0.22 * st.a * (1 - st.arc * 0.65);
+      var halfH = Math.tan(17.5 * Math.PI / 180) * 7.5, halfW = halfH * camera.aspect;
+      var fx = st.x + Math.cos(t * 0.5) * 0.12 + amx * 0.35, fy = st.y + sc * 0.4 + Math.sin(t * 0.8) * 0.15 - amy * 0.25;
+      group.position.set(fx, fy, 0);
+      dirV.set(amx * halfW - fx, -amy * halfH - fy, 2.5).normalize();
+      qInv.copy(group.quaternion).multiply(blob.quaternion).conjugate();
+      dirV.applyQuaternion(qInv);
+      uniforms.uDir.value.copy(dirV);
+      pull += ((0.18 + pSpeed * 0.5) - pull) * 0.08;
+      uniforms.uPull.value = pull;
+      pUni.uTime.value = t;
+      group.scale.setScalar(st.s * (1 + pulse * 0.25));
+      group.rotation.set(rx * 0.8 + sc * 0.3, ry * 0.9 + Math.sin(t * 0.4) * 0.3, Math.sin(t * 0.3) * 0.05);
+      wire.rotation.y = -t * 0.06; blob.rotation.y = t * 0.12;
+      pts.rotation.y = t * 0.015 + ry * 0.2; pts.rotation.x = rx * 0.3;
+      renderer.render(scene, camera);
+    }
+    addEventListener("resize", function () { layout(); tg = target(currentRoute); });
+    if (window.ResizeObserver) new ResizeObserver(function () { layout(); tg = target(currentRoute); }).observe(canvas);
+    (function frame() { requestAnimationFrame(frame); if (!document.hidden) render(); })();
+    return {
+      setRoute: function (r) { currentRoute = r; tg = target(r); if (reduce) { st.x = tg.x; st.y = tg.y; st.s = tg.s; st.a = tg.a; st.A = tg.A.slice(); st.B = tg.B.slice(); render(); } },
+      pulse: function (v) { pulse = Math.max(pulse, v || 0.55); }
+    };
+  }
+  function init2D() {
+    var c = $("#bg2d"), ctx = c.getContext("2d"), W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2), P = [];
+    function rgba(h, a) { var v = hex(h); return "rgba(" + Math.round(v[0] * 255) + "," + Math.round(v[1] * 255) + "," + Math.round(v[2] * 255) + "," + a + ")"; }
+    function size() {
+      W = innerWidth; H = innerHeight;
+      c.width = Math.round(W * dpr); c.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var n = W < 700 ? 45 : 90; P = [];
+      for (var i = 0; i < n; i++) P.push({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5 });
+    }
+    size();
+    addEventListener("resize", size);
+    var t0 = performance.now(), boost = 0;
+    (function frame2d() {
+      requestAnimationFrame(frame2d);
+      if (document.hidden) return;
+      var t = (performance.now() - t0) / 1000 * (reduce ? 0.35 : 1);
+      ctx.clearRect(0, 0, W, H);
+      var orbs = [[0.72, 0.42, "#2b3bff"], [0.28, 0.72, PAGE_COLOR[current] || "#8c96ff"], [0.55, 0.22, "#8f6bff"]];
+      ctx.globalCompositeOperation = "lighter";
+      orbs.forEach(function (o, i) {
+        var x = W * (o[0] + 0.16 * Math.sin(t * (0.3 + i * 0.1) + i)) + (px - W / 2) * 0.05 * (i + 1);
+        var y = H * (o[1] + 0.14 * Math.cos(t * (0.25 + i * 0.12) + i * 2)) + (py - H / 2) * 0.05 * (i + 1);
+        var r = Math.max(W, H) * (0.32 + 0.05 * Math.sin(t + i) + boost * 0.1);
+        var g = ctx.createRadialGradient(x, y, 0, x, y, r);
+        g.addColorStop(0, rgba(o[2], 0.42)); g.addColorStop(1, rgba(o[2], 0));
+        ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+      });
+      ctx.globalCompositeOperation = "source-over";
+      boost *= 0.95;
+      for (var i = 0; i < P.length; i++) {
+        var p = P[i], dx = p.x - px, dy = p.y - py, d2 = dx * dx + dy * dy;
+        if (d2 < 14400 && d2 > 1) { var d = Math.sqrt(d2), f = (120 - d) / 120 * 0.6; p.vx += dx / d * f; p.vy += dy / d * f; }
+        p.vx = p.vx * 0.96 + (Math.random() - 0.5) * 0.04;
+        p.vy = p.vy * 0.96 + (Math.random() - 0.5) * 0.04;
+        p.x += p.vx + Math.sin(t + i) * 0.15;
+        p.y += p.vy + Math.cos(t * 0.8 + i) * 0.15;
+        if (p.x < -20) p.x = W + 20;
+        if (p.x > W + 20) p.x = -20;
+        if (p.y < -20) p.y = H + 20;
+        if (p.y > H + 20) p.y = -20;
+      }
+      ctx.lineWidth = 1;
+      for (var a = 0; a < P.length; a++) {
+        for (var b = a + 1; b < P.length; b++) {
+          var ex = P[a].x - P[b].x, ey = P[a].y - P[b].y, e2 = ex * ex + ey * ey;
+          if (e2 < 12100) {
+            ctx.strokeStyle = "rgba(170,178,255," + (0.22 * (1 - e2 / 12100)).toFixed(3) + ")";
+            ctx.beginPath(); ctx.moveTo(P[a].x, P[a].y); ctx.lineTo(P[b].x, P[b].y); ctx.stroke();
+          }
+        }
+        ctx.fillStyle = "rgba(220,224,255,0.8)";
+        ctx.beginPath(); ctx.arc(P[a].x, P[a].y, 1.6, 0, 6.2832); ctx.fill();
+      }
+    })();
+    return {
+      setRoute: function () {},
+      pulse: function (v) { boost = Math.max(boost, v || 0.5); },
+      kick: function (x, y) {
+        P.forEach(function (p) {
+          var dx = p.x - x, dy = p.y - y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (d < 260) { p.vx += dx / d * 6 * (1 - d / 260); p.vy += dy / d * 6 * (1 - d / 260); }
+        });
+      }
+    };
+  }
+  try { gl = initGL(); } catch (e) {
+    root.classList.add("no-gl");
+    try { gl = init2D(); } catch (e2) { gl = null; }
+  }
+
+  /* ---------- game: Uhvati kuglu ---------- */
+  function initGame() {
+    var wrap = $("#gameWrap"), cv = $("#gameCanvas"), gx2 = cv.getContext("2d");
+    var over = $("#gOver"), gTitle = $("#gTitle"), gText = $("#gText"), gStats = $("#gStats"), gScore = $("#gScore"), gBest = $("#gBest"), gStart = $("#gStart"), gShare = $("#gShare");
+    var W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var PAPER = "#eef0ff", MUTE = "#959cc9", GRID = "rgba(38,42,92,0.55)", BUG = "#ff4d6d", INK = "#07081a", ACC = PAGE_COLOR.igra;
+    var DISPLAY = '800 {s}px Unbounded, "Arial Black", sans-serif', MONO = '500 {s}px "JetBrains Mono", monospace';
+    var g = null, running = false, paused = false, raf = 0, last = 0;
+    var input = { target: null, left: false, right: false };
+    function font(tpl, s) { return tpl.replace("{s}", Math.round(s)); }
+    function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+    function unit() { return clamp(W * 0.085, 30, 66); }
+    function bowlY(U) { return H - U - 26; }
+    function mult() { return Math.min(4, 1 + Math.floor(g.combo / 6)); }
+    function idleState() {
+      g = { score: 0, lives: 3, level: 1, combo: 0, catches: 0, bx: W / 2, items: [], parts: [], pops: [], spawnT: 0.8, wide: 0, slow: 0, shake: 0, flash: 0, flashCol: ACC, caught: null, idle: true };
+    }
+    function size() {
+      var r = cv.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      W = r.width; H = r.height;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      gx2.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (!g) idleState();
+      if (g.idle) g.bx = W / 2;
+      g.bx = clamp(g.bx, unit(), W - unit());
+      draw();
+    }
+    function drawArc(x, y, Ro, col) {
+      gx2.fillStyle = col; gx2.beginPath();
+      gx2.arc(x, y, Ro, 0, Math.PI, false);
+      gx2.arc(x, y, Ro * 136 / 192, Math.PI, 0, true);
+      gx2.closePath(); gx2.fill();
+    }
+    function drawLogo(x, y, Ro, col) {
+      drawArc(x, y, Ro, col);
+      gx2.beginPath(); gx2.arc(x, y + Ro * 28 / 192, Ro * 80 / 192, 0, 6.2832); gx2.fill();
+    }
+    function spawn() {
+      var U = unit(), r0 = U * 80 / 192, roll = Math.random(), bugP = Math.min(0.1 + g.level * 0.03, 0.34), type = "orb";
+      if (roll < bugP) type = "bug";
+      else if (roll < bugP + 0.1) type = "big";
+      else if (roll > 0.97) type = "wide";
+      else if (roll > 0.945) type = "slow";
+      var rr = type === "bug" ? r0 * 0.85 : (type === "wide" || type === "slow") ? r0 * 0.8 : r0;
+      var sp = H * (0.24 + g.level * 0.04) * (0.85 + Math.random() * 0.35);
+      g.items.push({ type: type, x: rr + Math.random() * (W - rr * 2), y: -rr * 2, py: -rr * 2, r: rr, vy: sp, vx: type === "bug" ? (Math.random() - 0.5) * 70 : 0, rot: Math.random() * 6, bounced: false, dead: false });
+    }
+    function burst(x, y, col, n) {
+      if (reduce) n = Math.round(n / 3);
+      for (var i = 0; i < n; i++) {
+        var a = Math.random() * 6.2832, s = 80 + Math.random() * 260;
+        g.parts.push({ x: x, y: y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 120, life: 0, max: 0.5 + Math.random() * 0.5, c: col, r: 2 + Math.random() * 3 });
+      }
+    }
+    function pop(x, y, text, col) { g.pops.push({ x: x, y: y, text: text, c: col || PAPER, life: 0 }); }
+    function onCatch(it, by) {
+      if (it.type === "bug") {
+        g.lives--; g.combo = 0; g.shake = reduce ? 0 : 0.4; g.flash = 0.25; g.flashCol = BUG;
+        burst(it.x, by, BUG, 26); pop(it.x, by - 50, "BUG −1", BUG); blip(false);
+        if (g.lives <= 0) gameOver();
+        return;
+      }
+      if (it.type === "wide") { g.wide = 7; pop(g.bx, by - 60, "ŠIRI LUK", ACC); burst(g.bx, by, ACC, 18); blip(true); return; }
+      if (it.type === "slow") { g.slow = 5; pop(g.bx, by - 60, "USPORENO", ACC); burst(g.bx, by, PAPER, 18); blip(true); return; }
+      var m = mult(), pts = (it.type === "big" ? 3 : 1) * m;
+      g.score += pts; g.combo++; g.catches++;
+      g.caught = { t: 0, fromY: it.y };
+      burst(g.bx, by, it.type === "big" ? ACC : PAPER, it.type === "big" ? 30 : 16);
+      pop(g.bx, by - 70, "+" + pts + (m > 1 ? "  x" + m : ""), it.type === "big" ? ACC : PAPER);
+      var lvl = 1 + Math.floor(g.catches / 8);
+      if (lvl > g.level) { g.level = lvl; g.flash = 0.35; g.flashCol = ACC; pop(W / 2, H * 0.38, "NIVO " + lvl, ACC); blip(true); }
+      if (g.score >= 20) complete("gamer");
+      if (g.score >= 60) complete("champ");
+    }
+    function onMiss(it) {
+      g.lives--; g.combo = 0; g.shake = reduce ? 0 : 0.25; g.flash = 0.2; g.flashCol = BUG;
+      pop(clamp(it.x, 70, W - 70), H - 36, "PROMAŠAJ", BUG);
+      if (g.lives <= 0) gameOver();
+    }
+    function update(dt) {
+      var ts = g.slow > 0 ? 0.5 : 1;
+      g.wide = Math.max(0, g.wide - dt); g.slow = Math.max(0, g.slow - dt);
+      var U = unit(), Ro = U * (g.wide > 0 ? 1.45 : 1), Ri = Ro * 136 / 192, by = bowlY(U);
+      var dir = (input.right ? 1 : 0) - (input.left ? 1 : 0);
+      if (dir) { g.bx += dir * W * 1.1 * dt; input.target = null; }
+      else if (input.target !== null) g.bx += (input.target - g.bx) * Math.min(1, dt * 20);
+      g.bx = clamp(g.bx, Ro, W - Ro);
+      g.spawnT -= dt * ts;
+      if (g.spawnT <= 0) { spawn(); g.spawnT = Math.max(0.3, 1.0 - g.level * 0.07) * (0.7 + Math.random() * 0.6); }
+      for (var i = 0; i < g.items.length && running; i++) {
+        var it = g.items[i];
+        if (it.dead) continue;
+        it.py = it.y;
+        if (it.bounced) it.vy += 1500 * dt * ts;
+        it.y += it.vy * dt * ts; it.x += it.vx * dt * ts; it.rot += dt * 3;
+        if (it.x < it.r) { it.x = it.r; it.vx = Math.abs(it.vx); }
+        if (it.x > W - it.r) { it.x = W - it.r; it.vx = -Math.abs(it.vx); }
+        var line = by - it.r * 0.2;
+        if (it.vy > 0 && it.py < line && it.y >= line) {
+          var dx = it.x - g.bx;
+          if (Math.abs(dx) <= Ri - it.r * 0.3) { it.dead = true; onCatch(it, by); continue; }
+          if (Math.abs(dx) <= Ro + it.r * 0.6) {
+            it.y = line; it.vy = -Math.abs(it.vy) * 0.42 - 120; it.vx = (dx < 0 ? -1 : 1) * (140 + Math.random() * 90); it.bounced = true;
+            burst(it.x, line, MUTE, 6);
+          }
+        }
+        if (it.y - it.r > H) { it.dead = true; if (it.type === "orb" || it.type === "big") onMiss(it); }
+      }
+      g.items = g.items.filter(function (x) { return !x.dead; });
+      if (g.caught) { g.caught.t += dt; if (g.caught.t > 0.5) g.caught = null; }
+    }
+    function updateFx(dt) {
+      g.shake = Math.max(0, g.shake - dt); g.flash = Math.max(0, g.flash - dt);
+      g.parts.forEach(function (p) { p.life += dt; p.vy += 600 * dt; p.x += p.vx * dt; p.y += p.vy * dt; });
+      g.parts = g.parts.filter(function (p) { return p.life < p.max; });
+      g.pops.forEach(function (p) { p.life += dt; p.y -= 50 * dt; });
+      g.pops = g.pops.filter(function (p) { return p.life < 0.9; });
+    }
+    function drawItem(it) {
+      var ctx = gx2;
+      if (it.type === "orb" || it.type === "big") {
+        ctx.fillStyle = PAPER; ctx.beginPath(); ctx.arc(it.x, it.y, it.r, 0, 6.2832); ctx.fill();
+        if (it.type === "big") { ctx.strokeStyle = ACC; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(it.x, it.y, it.r + 6, 0, 6.2832); ctx.stroke(); }
+      } else if (it.type === "bug") {
+        ctx.save(); ctx.translate(it.x, it.y); ctx.rotate(it.rot * 0.3);
+        var s = it.r * 1.6;
+        ctx.globalAlpha = 0.55; ctx.fillStyle = "#4dd2ff"; ctx.fillRect(-s / 2 - 3, -s / 2 + 1, s, s);
+        ctx.globalAlpha = 1; ctx.fillStyle = BUG; ctx.fillRect(-s / 2, -s / 2, s, s);
+        ctx.strokeStyle = INK; ctx.lineWidth = 3; ctx.beginPath();
+        ctx.moveTo(-s * 0.22, -s * 0.22); ctx.lineTo(s * 0.22, s * 0.22); ctx.moveTo(s * 0.22, -s * 0.22); ctx.lineTo(-s * 0.22, s * 0.22); ctx.stroke();
+        ctx.restore();
+      } else if (it.type === "wide") {
+        ctx.fillStyle = ACC; ctx.beginPath(); ctx.arc(it.x, it.y, it.r, 0, 6.2832); ctx.fill();
+        ctx.strokeStyle = INK; ctx.lineWidth = 2.5; ctx.beginPath();
+        ctx.moveTo(it.x - it.r * 0.55, it.y); ctx.lineTo(it.x + it.r * 0.55, it.y);
+        ctx.moveTo(it.x - it.r * 0.3, it.y - it.r * 0.25); ctx.lineTo(it.x - it.r * 0.55, it.y); ctx.lineTo(it.x - it.r * 0.3, it.y + it.r * 0.25);
+        ctx.moveTo(it.x + it.r * 0.3, it.y - it.r * 0.25); ctx.lineTo(it.x + it.r * 0.55, it.y); ctx.lineTo(it.x + it.r * 0.3, it.y + it.r * 0.25);
+        ctx.stroke();
+      } else if (it.type === "slow") {
+        ctx.strokeStyle = ACC; ctx.lineWidth = 3; ctx.setLineDash([5, 5]);
+        ctx.beginPath(); ctx.arc(it.x, it.y, it.r, 0, 6.2832); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = ACC; ctx.beginPath(); ctx.moveTo(it.x, it.y);
+        ctx.arc(it.x, it.y, it.r * 0.55, -Math.PI / 2, -Math.PI / 2 + (it.rot % 6.2832)); ctx.closePath(); ctx.fill();
+      }
+    }
+    function draw() {
+      if (!W || !g) return;
+      var ctx = gx2;
+      ctx.clearRect(0, 0, W, H);
+      ctx.save();
+      if (g.shake > 0) ctx.translate((Math.random() - 0.5) * 16 * g.shake, (Math.random() - 0.5) * 16 * g.shake);
+      ctx.strokeStyle = GRID; ctx.lineWidth = 1;
+      for (var x = 40; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, H); ctx.stroke(); }
+      for (var y = 40; y < H; y += 40) { ctx.beginPath(); ctx.moveTo(0, y + 0.5); ctx.lineTo(W, y + 0.5); ctx.stroke(); }
+      var U = unit(), Ro = U * (g.wide > 0 ? 1.45 : 1), by = bowlY(U);
+      g.items.forEach(drawItem);
+      drawArc(g.bx, by, Ro, g.wide > 0 ? ACC : PAPER);
+      var oy = by + U * 28 / 192, orr = U * 80 / 192;
+      if (g.idle) {
+        ctx.fillStyle = PAPER; ctx.beginPath(); ctx.arc(g.bx, oy, orr, 0, 6.2832); ctx.fill();
+      } else if (g.caught) {
+        var k = Math.min(1, g.caught.t / 0.1), sy = g.caught.fromY + (oy - g.caught.fromY) * k;
+        var sc = 1 + Math.sin(Math.min(1, g.caught.t / 0.5) * Math.PI) * 0.14;
+        ctx.globalAlpha = g.caught.t > 0.35 ? Math.max(0, 1 - (g.caught.t - 0.35) / 0.15) : 1;
+        ctx.fillStyle = PAPER; ctx.beginPath(); ctx.arc(g.bx, sy, orr * sc, 0, 6.2832); ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+      g.parts.forEach(function (p) { ctx.globalAlpha = Math.max(0, 1 - p.life / p.max); ctx.fillStyle = p.c; ctx.fillRect(p.x - p.r / 2, p.y - p.r / 2, p.r, p.r); });
+      ctx.globalAlpha = 1;
+      ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.font = font(DISPLAY, 18);
+      g.pops.forEach(function (p) { ctx.globalAlpha = Math.max(0, 1 - p.life / 0.9); ctx.fillStyle = p.c; ctx.fillText(p.text, p.x, p.y); });
+      ctx.globalAlpha = 1;
+      ctx.restore();
+      if (g.flash > 0) { ctx.globalAlpha = g.flash * 0.45; ctx.fillStyle = g.flashCol; ctx.fillRect(0, 0, W, H); ctx.globalAlpha = 1; }
+      if (!g.idle) {
+        ctx.textAlign = "left"; ctx.textBaseline = "top";
+        ctx.fillStyle = PAPER; ctx.font = font(DISPLAY, 34); ctx.fillText(String(g.score), 22, 18);
+        ctx.fillStyle = MUTE; ctx.font = font(MONO, 11);
+        var info = "NIVO " + g.level + (mult() > 1 ? "  ·  KOMBO x" + mult() : "") + (g.slow > 0 ? "  ·  USPORENO" : "") + (g.wide > 0 ? "  ·  ŠIRI LUK" : "");
+        ctx.fillText(info, 24, 62);
+        for (var l = 0; l < 3; l++) { ctx.globalAlpha = l < g.lives ? 1 : 0.25; drawLogo(W - 34 - l * 42, 26, 16, l < g.lives ? PAPER : MUTE); }
+        ctx.globalAlpha = 1;
+      }
+    }
+    function gameOver() {
+      running = false; paused = false;
+      var prev = S.best || 0, best = Math.max(prev, g.score), isNew = g.score > prev && g.score > 0;
+      S.best = best; save(); renderHUD();
+      gTitle.textContent = isNew ? "Novi rekord!" : "Kraj igre";
+      gText.textContent = g.score >= 60 ? "Šampionski. Logo je ponosan." : g.score >= 20 ? "Odlično. Dođite do 60 poena za misiju Šampion." : "Dođite do 20 poena za misiju Igrač.";
+      gScore.textContent = g.score; gBest.textContent = best;
+      gStats.hidden = false; gShare.hidden = false; gStart.textContent = "Igraj ponovo";
+      over.hidden = false;
+      if (isNew && g.score >= 10) confetti(120);
+    }
+    function start() {
+      idleState(); g.idle = false; g.bx = W / 2;
+      running = true; paused = false; over.hidden = true; input.target = null; last = performance.now();
+      try { cv.focus({ preventScroll: true }); } catch (e) {}
+    }
+    function pause() {
+      if (!running || paused) return;
+      paused = true;
+      gTitle.textContent = "Pauza"; gText.textContent = "Igra čeka na vas."; gStats.hidden = true; gShare.hidden = true; gStart.textContent = "Nastavi";
+      over.hidden = false;
+    }
+    function resume() { paused = false; over.hidden = true; last = performance.now(); try { cv.focus({ preventScroll: true }); } catch (e) {} }
+    gStart.addEventListener("click", function () { if (running && paused) resume(); else start(); });
+    gShare.addEventListener("click", function () { copyText("Moj rezultat u igri Uhvati kuglu: " + g.score + " poena (CASUAL TECHNOLOGY). Možeš li bolje?", gShare, "Kopirano ✓", gScore); });
+    function setTarget(e) { var r = cv.getBoundingClientRect(); input.target = e.clientX - r.left; }
+    cv.addEventListener("pointermove", setTarget);
+    cv.addEventListener("pointerdown", setTarget);
+    addEventListener("keydown", function (e) {
+      if (current !== "igra") return;
+      var tag = (e.target && e.target.tagName) || "", k = e.key;
+      if (tag === "INPUT") return;
+      if (k === "ArrowLeft" || k === "a" || k === "A") { input.left = true; if (running) e.preventDefault(); }
+      else if (k === "ArrowRight" || k === "d" || k === "D") { input.right = true; if (running) e.preventDefault(); }
+      else if (k === " " && tag !== "BUTTON" && tag !== "A") { e.preventDefault(); if (!running) start(); else if (paused) resume(); else pause(); }
+    });
+    addEventListener("keyup", function (e) {
+      var k = e.key;
+      if (k === "ArrowLeft" || k === "a" || k === "A") input.left = false;
+      if (k === "ArrowRight" || k === "d" || k === "D") input.right = false;
+    });
+    document.addEventListener("visibilitychange", function () { if (document.hidden) pause(); });
+    function loop(ts) {
+      raf = requestAnimationFrame(loop);
+      var dt = Math.min(0.05, Math.max(0, (ts - last) / 1000)); last = ts;
+      if (document.hidden || !g) return;
+      if (running && !paused) update(dt);
+      if (!paused) updateFx(dt);
+      draw();
+    }
+    if (window.ResizeObserver) new ResizeObserver(size).observe(wrap);
+    addEventListener("resize", size);
+    return {
+      onRoute: function (r) {
+        if (r === "igra") { size(); last = performance.now(); if (!raf) raf = requestAnimationFrame(loop); }
+        else { pause(); if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+      }
+    };
+  }
+  var game = null;
+  try { game = initGame(); } catch (e) { game = null; }
+
+  /* ---------- boot ---------- */
+  var loader = $("#loader");
+  if (loader && !loader.hidden) {
+    try { sessionStorage.setItem("ct-intro", "1"); } catch (e) {}
+    setTimeout(function () { loader.classList.add("done"); }, 1500);
+    setTimeout(function () { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 2400);
+  } else if (loader && loader.parentNode) { loader.parentNode.removeChild(loader); }
+  renderSound(); renderProc(); renderKre(false);
+  if (S.done.orb) orbHint.textContent = "Kugla je budna ✦";
+  var first = routeFromHash();
+  if (!S.done.start) { S.done.start = true; S.xp += 10; save(); setTimeout(function () { toast("Misija: Uđi u igru", "+10 XP"); }, 900); }
+  show(first, false);
+  renderHUD();
+})();
+</script>
+</body>
+</html>
