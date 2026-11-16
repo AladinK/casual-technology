@@ -6,10 +6,19 @@
 <title>CASUAL TECHNOLOGY</title>
 <meta name="description" content="CASUAL TECHNOLOGY: SaaS dizajn, full-stack razvoj, AI chatbotovi i web sajtovi. Aladin Kurtanovic, Beograd.">
 <meta name="theme-color" content="#07081a">
+<link rel="canonical" href="https://aladink.github.io/casual-technology/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="CASUAL TECHNOLOGY">
+<meta property="og:url" content="https://aladink.github.io/casual-technology/">
+<meta property="og:title" content="CASUAL TECHNOLOGY · Aladin Kurtanovic">
 <meta property="og:description" content="CASUAL TECHNOLOGY: SaaS dizajn, full-stack razvoj, AI chatbotovi i web sajtovi. Aladin Kurtanovic, Beograd.">
+<meta property="og:image" content="https://aladink.github.io/casual-technology/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://aladink.github.io/casual-technology/img/og.jpg">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" as="image" href="img/aladin-sm.webp">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Aladin Kurtanovic", "jobTitle": "Full-stack programer i SaaS dizajner", "url": "https://aladink.github.io/casual-technology/", "image": "https://aladink.github.io/casual-technology/img/aladin.webp", "worksFor": {"@type": "Organization", "name": "CASUAL TECHNOLOGY", "url": "https://aladink.github.io/casual-technology/", "logo": "https://aladink.github.io/casual-technology/favicon.svg"}, "sameAs": ["https://rs.linkedin.com/in/aladin-strategic-marketing"]}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -165,7 +174,34 @@ main { position: relative; z-index: 2; }
 .glass { background: color-mix(in srgb, var(--surface) 78%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--line); }
 
 /* ---------- home ---------- */
-.role { font-family: var(--f-display); font-weight: 600; font-size: clamp(18px, 2.6vw, 30px); line-height: 1.25; margin: 0 0 32px; }
+.role { display: flex; align-items: center; gap: 14px; font-family: var(--f-display); font-weight: 600; font-size: clamp(18px, 2.6vw, 30px); line-height: 1.25; margin: 0 0 32px; }
+.role > span { min-width: 0; }
+.avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; flex: none; border: 2px solid var(--paper); filter: grayscale(1) contrast(1.05); }
+.avatar.lg { width: 64px; height: 64px; }
+
+/* ---------- about ---------- */
+.about { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: center; padding-block: 0 clamp(70px, 10vw, 140px); }
+@media (max-width: 800px) { .about { grid-template-columns: 1fr; } }
+.me { position: relative; margin: 0; border-radius: 28px; overflow: hidden; aspect-ratio: 1; max-width: 100%; border: 1px solid var(--line); background: var(--surface); }
+.me img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.08) brightness(0.95); transition: filter 0.6s, transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.me::before { content: ""; position: absolute; inset: 0; z-index: 1; background: var(--klein); mix-blend-mode: color; opacity: 0.5; pointer-events: none; transition: opacity 0.6s; }
+.me::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(0deg, color-mix(in srgb, var(--ink) 88%, transparent), transparent 42%); pointer-events: none; }
+.me:hover img { filter: none; transform: scale(1.03); }
+.me:hover::before { opacity: 0; }
+.me figcaption { position: absolute; z-index: 2; left: 24px; right: 24px; bottom: 22px; display: grid; gap: 4px; }
+.me figcaption b { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: clamp(18px, 2.2vw, 24px); letter-spacing: -0.01em; }
+.me figcaption span { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); }
+.me-badge { position: absolute; z-index: 2; top: 18px; left: 18px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; background: color-mix(in srgb, var(--ink) 72%, transparent); border: 1px solid var(--line); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.me-h { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; font-size: clamp(30px, 4.6vw, 60px); line-height: 0.98; letter-spacing: -0.03em; margin: 14px 0 22px; text-wrap: balance; }
+.me-text .copy { color: var(--mute); font-size: 18px; max-width: 50ch; margin: 0 0 14px; }
+.facts { list-style: none; padding: 0; margin: 26px 0 30px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.facts li { border-top: 1px solid var(--line); padding-top: 12px; min-width: 0; }
+.facts b { display: block; font-family: var(--f-display); font-weight: 600; font-size: clamp(16px, 1.8vw, 22px); }
+.facts span { font-size: 13px; color: var(--mute); }
+@media (max-width: 520px) { .facts { grid-template-columns: 1fr; } }
+.who { display: flex; align-items: center; gap: 14px; margin: 0 0 26px; }
+.who b { display: block; font-weight: 600; font-size: 17px; }
+.who span { color: var(--mute); font-size: 15px; }
 .scr { color: var(--page); white-space: nowrap; }
 .dud { color: var(--klein); }
 .orb-hint { font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em; color: var(--mute); margin: 26px 0 0; }
@@ -456,7 +492,7 @@ img { max-width: 100%; }
         <span class="line outline" aria-hidden="true" data-split data-offset="6">Kod</span>
         <span class="line" aria-hidden="true" data-split data-offset="9">&amp; vibe</span>
       </h1>
-      <p class="role">Aladin Kurtanovic gradi <span class="scr" id="scr">SaaS proizvode</span></p>
+      <p class="role"><img class="avatar" src="img/aladin-sm.webp" alt="Aladin Kurtanovic" width="52" height="52"><span>Aladin Kurtanovic gradi <span class="scr" id="scr">SaaS proizvode</span></span></p>
       <div class="actions">
         <a class="btn btn-primary magnet" href="#kreator" data-cur="Igraj">Složi svoj projekat ✦</a>
         <a class="btn magnet" href="#igra" data-cur="Igraj">Igraj igru</a>
@@ -476,6 +512,29 @@ img { max-width: 100%; }
     <div class="in manifesto">
       <p class="label">/ Studio</p>
       <p class="big-copy" style="margin-top:18px">CASUAL TECHNOLOGY je studio jednog čovjeka. <em>Ozbiljan kod,</em> opušten pristup. Dizajniram SaaS proizvode, pišem full-stack kod i pravim <em>AI chatbote</em> koji rade dok vi spavate.</p>
+    </div>
+
+    <div class="in about">
+      <figure class="me">
+        <img src="img/aladin.webp" alt="Aladin Kurtanovic, osnivač studija CASUAL TECHNOLOGY" width="800" height="800" loading="lazy">
+        <span class="me-badge"><span class="dot"></span>Primam nove projekte</span>
+        <figcaption><b>Aladin Kurtanovic</b><span>Osnivač · Full-stack i SaaS dizajn</span></figcaption>
+      </figure>
+      <div class="me-text">
+        <p class="label">/ O meni</p>
+        <h2 class="me-h">Zdravo, ja sam Aladin.</h2>
+        <p class="copy">Full-stack programer i SaaS dizajner. Dizajniram i pravim webshopove, SaaS aplikacije i AI alate, od prve skice do objave na serveru.</p>
+        <p class="copy">Radite direktno sa mnom, bez posrednika. Ista osoba koja vas sluša na prvom pozivu piše i kod za vaš projekat.</p>
+        <ul class="facts">
+          <li><b>6 projekata</b><span>objavljenih i živih na internetu</span></li>
+          <li><b>SaaS · Web · AI</b><span>dizajn i razvoj na jednom mjestu</span></li>
+          <li><b>1 na 1</b><span>direktna saradnja sa mnom</span></li>
+        </ul>
+        <div class="actions">
+          <a class="btn btn-primary magnet" href="#radovi" data-cur="Gledaj">Pogledaj radove</a>
+          <a class="btn magnet" href="https://rs.linkedin.com/in/aladin-strategic-marketing" target="_blank" rel="noopener" data-cur="LinkedIn">LinkedIn ↗</a>
+        </div>
+      </div>
     </div>
 
     <div class="in idx-wrap">
@@ -720,6 +779,10 @@ img { max-width: 100%; }
     <div class="in">
       <p class="eyebrow"><span class="dot"></span>/ Kontakt</p>
       <h1 class="mega sm" id="h-kontakt" tabindex="-1" aria-label="Imate projekat?"><span class="line" aria-hidden="true" data-split>Imate</span><span class="line outline" aria-hidden="true" data-split data-offset="5">projekat?</span></h1>
+      <div class="who">
+        <img class="avatar lg" src="img/aladin-sm.webp" alt="Aladin Kurtanovic" width="64" height="64">
+        <div><b>Aladin Kurtanovic</b><span>Na pozive i poruke odgovaram lično.</span></div>
+      </div>
       <div class="crow">
         <span class="phone" id="phone">065 371 2712</span>
         <button class="btn btn-primary" type="button" id="copyPhone" data-cur="Kopiraj">Kopiraj broj</button>
@@ -1458,14 +1521,15 @@ img { max-width: 100%; }
       st.x += (tg.x - st.x) * k; st.y += (tg.y - st.y) * k; st.s += (tg.s - st.s) * k; st.amp += (tg.amp - st.amp) * k; st.a += (tg.a - st.a) * k; st.arc += (tg.arc - st.arc) * k;
       for (var c = 0; c < 3; c++) { st.A[c] += (tg.A[c] - st.A[c]) * k; st.B[c] += (tg.B[c] - st.B[c]) * k; }
       var sc = Math.min(scrollY / Math.max(innerHeight, 1), 1.5);
+      var fadeS = 1 - Math.min(Math.max(sc - 0.3, 0), 1) * 0.75;
       rx += (amy * 0.35 - rx) * 0.05; ry += (amx * 0.5 - ry) * 0.05;
       pulse *= 0.94;
       uniforms.uTime.value = t;
       uniforms.uAmp.value = st.amp + sc * 0.15 + pulse;
       uniforms.uColA.value.set(st.A[0], st.A[1], st.A[2]);
       uniforms.uColB.value.set(st.B[0], st.B[1], st.B[2]);
-      uniforms.uAlpha.value = st.a;
-      wireMat.color.setRGB(st.A[0], st.A[1], st.A[2]); wireMat.opacity = 0.22 * st.a * (1 - st.arc * 0.65);
+      uniforms.uAlpha.value = st.a * fadeS;
+      wireMat.color.setRGB(st.A[0], st.A[1], st.A[2]); wireMat.opacity = 0.22 * st.a * fadeS;
       var halfH = Math.tan(17.5 * Math.PI / 180) * 7.5, halfW = halfH * camera.aspect;
       var fx = st.x + Math.cos(t * 0.5) * 0.12 + amx * 0.35, fy = st.y + sc * 0.4 + Math.sin(t * 0.8) * 0.15 - amy * 0.25;
       group.position.set(fx, fy, 0);
